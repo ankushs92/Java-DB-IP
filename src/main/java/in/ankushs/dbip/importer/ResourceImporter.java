@@ -25,9 +25,8 @@ import in.ankushs.dbip.utils.CountryResolver;
 public final class ResourceImporter {
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = new JavaMapDbIpRepositoryImpl();
-	public ResourceImporter instance = null;
+	private ResourceImporter instance = null;
 
-	// comment
 	public ResourceImporter getInstance() {
 		if (instance == null) {
 			return new ResourceImporter();
@@ -37,9 +36,10 @@ public final class ResourceImporter {
 
 	public void load(final File file) {
 		try (InputStream fis = new FileInputStream(file);
-				InputStream gis = new GZIPInputStream(fis);
-				Reader decorator = new InputStreamReader(gis, StandardCharsets.UTF_8);
-				BufferedReader reader = new BufferedReader(decorator);) {
+			InputStream gis = new GZIPInputStream(fis);
+			Reader decorator = new InputStreamReader(gis, StandardCharsets.UTF_8);
+			BufferedReader reader = new BufferedReader(decorator);)
+	{
 			logger.debug("Reading dbip data from {}", file.getName());
 			String line = null;
 			int i = 0;
