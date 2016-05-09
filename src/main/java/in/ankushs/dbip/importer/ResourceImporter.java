@@ -26,7 +26,7 @@ public final class ResourceImporter {
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = new JavaMapDbIpRepositoryImpl();
 	public ResourceImporter instance =  null;
-	
+	//comment
 	public ResourceImporter getInstance(){
 		if(instance==null){
 			return new ResourceImporter();
