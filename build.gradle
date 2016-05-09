@@ -1,0 +1,54 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin : 'idea'
+ 
+sourceCompatibility = 1.8
+version = '1.0'
+
+jar {
+    baseName = "Java DbIp"
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                   'Implementation-Version': version
+    }
+}
+ 
+repositories {
+    mavenCentral()
+}
+ 
+dependencies {
+  compile('com.google.guava:guava:19.0')
+  compile('ch.qos.logback:logback-classic:1.1.4')
+  compile('ch.qos.logback:logback-core:1.1.4')
+  compile('org.slf4j:slf4j-api:1.7.18')
+  testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
+  testCompile('org.codehaus.groovy:groovy-all:2.4.5')
+}
+
+sourceSets {
+	main {
+	  java { srcDirs = ["src/main/java"] }    // no source dirs for the java compiler
+	  groovy { srcDirs = ["src/test/groovy"] }  // compile everything in src/ with groovy
+	 }
+  }
+ 
+test {
+    systemProperties 'property': 'value'
+}
+
+eclipse {
+  classpath {
+     containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+     containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+  }
+}
+
+ 
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
