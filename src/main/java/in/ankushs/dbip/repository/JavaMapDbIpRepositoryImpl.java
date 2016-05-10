@@ -2,6 +2,8 @@ package in.ankushs.dbip.repository;
 
 import java.net.InetAddress;
 import java.util.TreeMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import com.google.common.net.InetAddresses;
 
@@ -10,6 +12,7 @@ import in.ankushs.dbip.model.GeoAttributes;
 import in.ankushs.dbip.utils.PreConditions;
 
 public class JavaMapDbIpRepositoryImpl implements DbIpRepository {
+	
 	private static JavaMapDbIpRepositoryImpl instance = null;
 	public static JavaMapDbIpRepositoryImpl getInstance(){
 		if(instance==null){

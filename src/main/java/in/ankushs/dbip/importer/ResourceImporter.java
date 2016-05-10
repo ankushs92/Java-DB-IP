@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
 
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.CountryResolver;
 
 public final class ResourceImporter {
+
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = new JavaMapDbIpRepositoryImpl();
 	private ResourceImporter instance = null;

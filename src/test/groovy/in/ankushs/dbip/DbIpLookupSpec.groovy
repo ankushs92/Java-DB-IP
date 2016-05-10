@@ -5,8 +5,6 @@ import in.ankushs.dbip.api.GeoEntity
 
 class DbIpLookupSpec extends BaseSpec{
 	
-	static final LOCATION="/Users/Ankush/Downloads/dbip-city-latest.csv.gz"
-	File file = new File(LOCATION)
 	
 	//Format City,State,Country
 	def "New Delhi,Delhi,India"(){
@@ -94,4 +92,39 @@ class DbIpLookupSpec extends BaseSpec{
 			geoEntity.state == 'Auckland'
 	}
 	
+	def "Yekaterinburg,Sverdlovsk Oblast,Russian Federation"(){
+		given:
+			def client = new DbIpClient(file)
+		when:
+			def ip = "5.2.63.255"
+			GeoEntity geoEntity = client.lookup(ip)
+		then:
+			geoEntity.city == 'Yekaterinburg'
+			geoEntity.country == 'Russian Federation'
+			geoEntity.state == 'Sverdlovsk Oblast'
+	}
+	
+	def "Yekaterinburg,Sverdlovsk Oblast,Sri Lanka"(){
+		given:
+			def client = new DbIpClient(file)
+		when:
+			def ip = "112.135.255.255"
+			GeoEntity geoEntity = client.lookup(ip)
+		then:
+			geoEntity.city == 'Colombo'
+			geoEntity.country == 'Sri Lanka'
+			geoEntity.state == 'Western Province'
+	}
+	
+	def "Unknown,Unknown,Unknown"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "112.135.255.255"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Colombo'
+		geoEntity.country == 'Sri Lanka'
+		geoEntity.state == 'Western Province'
+	}
 }
