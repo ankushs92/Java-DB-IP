@@ -1,22 +1,26 @@
 package in.ankushs.dbip.api;
 
 import in.ankushs.dbip.utils.PreConditions;
-
+/**
+ * 
+ *
+ * @author Ankush Sharma
+ */
 public final class GeoEntity {
 	private final String city;
 	private final String country;
-	private final String state;
+	private final String province;
 	
 	public GeoEntity(final Builder builder){
 		this.city = builder.city;
 		this.country = builder.country;
-		this.state = builder.state;
+		this.province = builder.province;
 	}
 	
 	public static class Builder{
 		private String city;
 		private String country;
-		private String state;
+		private String province;
 		
 		public Builder withCity(final String city ){
 			this.city = city;
@@ -28,8 +32,8 @@ public final class GeoEntity {
 			return this;
 		}
 		
-		public Builder withState(final String state ){
-			this.state = state;
+		public Builder withProvince(final String province ){
+			this.province = province;
 			return this;
 		}
 		
@@ -46,13 +50,13 @@ public final class GeoEntity {
 		return country;
 	}
 
-	public String getState() {
-		return state;
+	public String getProvince() {
+		return province;
 	}
 
 	@Override
 	public String toString() {
-		return "GeoEntity [city=" + city + ", country=" + country + ", state=" + state + "]";
+		return "GeoEntity [city=" + city + ", country=" + country + ", province=" + province + "]";
 	}
 	
 	

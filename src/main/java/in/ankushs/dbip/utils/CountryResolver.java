@@ -3,9 +3,9 @@ package in.ankushs.dbip.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CountryResolver {
+public final class CountryResolver {
     private static final Map<String, String> countries = new HashMap<String,String>();
-    		
+    private CountryResolver(){}
 	static{
 		countries.put("AF", "Afghanistan");
 		countries.put("AL", "Albania");

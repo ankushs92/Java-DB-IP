@@ -5,7 +5,7 @@ package in.ankushs.dbip.utils;
  * String utilities.
  * @author Ankush Sharma
  */
-public class Strings {
+public final class Strings {
 	
 	private Strings(){}
 	

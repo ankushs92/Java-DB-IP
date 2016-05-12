@@ -7,16 +7,23 @@ import in.ankushs.dbip.repository.DbIpRepository;
 import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.PreConditions;
 
+/**
+ * 
+ * Singleton class that resolves ip to Location info.
+ * @author Ankush Sharma
+ */
 public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService {
 	
-	private static final String UNKNOWN = "UNKNOWN";
-	private final DbIpRepository repository = new JavaMapDbIpRepositoryImpl();
+	private static final String UNKNOWN = "Unknown";
 	
-	private GeoEntityLookupServiceImpl instance = null;
+	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
 	
-	public GeoEntityLookupServiceImpl getInstance(){
+	private static GeoEntityLookupServiceImpl instance = null;
+	
+	private GeoEntityLookupServiceImpl(){}
+	public static GeoEntityLookupServiceImpl getInstance(){
 		if(instance==null){
-			return this;
+			return new GeoEntityLookupServiceImpl();
 		}
 		return instance;
 	}
@@ -28,9 +35,12 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 		if( geoEntity == null ){
 			geoEntity = new GeoEntity.Builder()
 								.withCity(UNKNOWN).withCountry(UNKNOWN)
-								.withState(UNKNOWN).build();
+								.withProvince(UNKNOWN).build();
 		}
 		return geoEntity;
 	}
-
+	
+	public static void main(String[] args) {
+		GeoEntityLookupService g1 = getInstance();
+	}
 }

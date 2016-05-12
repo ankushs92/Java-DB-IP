@@ -9,14 +9,14 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	private final InetAddress endIp;
 	private final String city;
 	private final String country;
-	private final String state ;
+	private final String province ;
 	
 	private GeoAttributesImpl(final Builder builder){
 		this.startIp = builder.startIp;
 		this.endIp = builder.endIp;
 		this.city = builder.city;
 		this.country = builder.country;
-		this.state = builder.state;
+		this.province = builder.province;
 	}
 	
 	public static class Builder{
@@ -24,7 +24,7 @@ public final class GeoAttributesImpl implements GeoAttributes {
 		private  InetAddress endIp;
 		private  String city;
 		private  String country;
-		private  String state ;
+		private  String province ;
 		
 		public Builder withStartIp(final InetAddress startIp){
 			this.startIp = startIp;
@@ -49,8 +49,8 @@ public final class GeoAttributesImpl implements GeoAttributes {
 		}
 		
 		
-		public Builder withState(final String state){
-			this.state = state;
+		public Builder withProvince(final String province){
+			this.province = province;
 			return this;
 		}
 		
@@ -73,7 +73,7 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	public GeoEntity getGeoEntity() {
 		return new GeoEntity.Builder()
 						.withCity(city).withCountry(country)
-						.withState(state).build();
+						.withProvince(province).build();
 	}
 	
 	

@@ -5,8 +5,6 @@ import in.ankushs.dbip.api.GeoEntity
 
 class DbIpLookupSpec extends BaseSpec{
 	
-	static final LOCATION="/Users/Ankush/Downloads/dbip-city-latest.csv.gz"
-	File file = new File(LOCATION)
 	
 	//Format City,State,Country
 	def "New Delhi,Delhi,India"(){
@@ -19,7 +17,7 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'New Delhi'
 			geoEntity.country == 'India'
-			geoEntity.state == 'Delhi'
+			geoEntity.province == 'Delhi'
 	}
 	
 	def "Mézin,Aquitaine-Limousin-Poitou-Charentes,France"(){
@@ -31,7 +29,7 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'Bourlens'
 			geoEntity.country == 'France'
-			geoEntity.state == 'Aquitaine'
+			geoEntity.province == 'Aquitaine'
 	}
 	
 	def "Columbus,Ohio,United States"(){
@@ -43,7 +41,7 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'Columbus'
 			geoEntity.country == 'United States'
-			geoEntity.state == 'Ohio'
+			geoEntity.province == 'Ohio'
 	}
 	
 	def "Newark,New Jersey,United States"(){
@@ -55,7 +53,7 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'Newark'
 			geoEntity.country == 'United States'
-			geoEntity.state == 'New Jersey'
+			geoEntity.province == 'New Jersey'
 	}
 	
 	def "Lisbon,Lisbon District,Portugal"(){
@@ -67,7 +65,7 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'Lisbon'
 			geoEntity.country == 'Portugal'
-			geoEntity.state == 'Lisbon District'
+			geoEntity.province == 'Lisbon District'
 	}
 	
 	def "Melbourne,Victoria,Australia"(){
@@ -79,7 +77,7 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'Melbourne'
 			geoEntity.country == 'Australia'
-			geoEntity.state == 'Victoria'
+			geoEntity.province == 'Victoria'
 	}
 	
 	def "Auckland,Auckland,New Zealand"(){
@@ -91,7 +89,127 @@ class DbIpLookupSpec extends BaseSpec{
 		then:
 			geoEntity.city == 'Auckland'
 			geoEntity.country == 'New Zealand'
-			geoEntity.state == 'Auckland'
+			geoEntity.province == 'Auckland'
 	}
 	
+	def "Yekaterinburg,Sverdlovsk Oblast,Russian Federation"(){
+		given:
+			def client = new DbIpClient(file)
+		when:
+			def ip = "5.2.63.255"
+			GeoEntity geoEntity = client.lookup(ip)
+		then:
+			geoEntity.city == 'Yekaterinburg'
+			geoEntity.country == 'Russian Federation'
+			geoEntity.province == 'Sverdlovsk Oblast'
+	}
+	
+	def "Yekaterinburg,Sverdlovsk Oblast,Sri Lanka"(){
+		given:
+			def client = new DbIpClient(file)
+		when:
+			def ip = "112.135.255.255"
+			GeoEntity geoEntity = client.lookup(ip)
+		then:
+			geoEntity.city == 'Colombo'
+			geoEntity.country == 'Sri Lanka'
+			geoEntity.province == 'Western Province'
+	}
+	
+	def "Dunker,Södermanland County,Sweden"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "5.133.223.255"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Dunker'
+		geoEntity.country == 'Sweden'
+		geoEntity.province == 'Södermanland County'
+	}
+	
+	def "Oslo,Oslo,Norway"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "31.45.127.255"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Oslo'
+		geoEntity.country == 'Norway'
+		geoEntity.province == 'Oslo'
+	}
+	
+	def "London,England,United Kingdom"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "31.48.109.127"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'London'
+		geoEntity.country == 'United Kingdom'
+		geoEntity.province == 'England'
+	}
+	
+	def "Paris,Ile-de-france,France"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "194.3.31.52"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Paris'
+		geoEntity.country == 'France'
+		geoEntity.province == 'Ile-de-france'
+	}
+	
+	def "Qasr an Nile,Cairo Governorate,Egypt"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "197.55.197.243"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Qasr an Nile'
+		geoEntity.country == 'Egypt'
+		geoEntity.province == 'Cairo Governorate'
+	}
+	
+	def "Seoul,Seoul,Korea, Republic of"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "211.232.184.31"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Seoul'
+		geoEntity.country == "'Korea, Republic of'"
+		geoEntity.province == 'Seoul'
+	}
+	
+	def "Florence,Tuscany,Italy"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "31.196.74.119"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Florence'
+		geoEntity.country == "Italy"
+		geoEntity.province == 'Tuscany'
+	}
+	
+	def "Amsterdam,North Holland,Netherlands"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "92.68.194.100"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Amsterdam'
+		geoEntity.country == "Netherlands"
+		geoEntity.province == 'North Holland'
+	}
+
 }
