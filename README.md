@@ -60,3 +60,7 @@ province : Oslo
 country : Norway
 ```
 That's pretty much it.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ankushs92/java-db-ip/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
