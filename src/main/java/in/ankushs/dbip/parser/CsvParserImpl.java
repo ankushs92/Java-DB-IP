@@ -8,6 +8,7 @@ public final class CsvParserImpl implements CsvParser {
 	
 	public static CsvParserImpl parser = null;
 	
+	private CsvParserImpl(){}
 	public static CsvParserImpl getInstance(){
 		if(parser==null){
 			return new CsvParserImpl();

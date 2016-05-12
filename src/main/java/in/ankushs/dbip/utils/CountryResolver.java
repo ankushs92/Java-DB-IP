@@ -5,7 +5,7 @@ import java.util.Map;
 
 public final class CountryResolver {
     private static final Map<String, String> countries = new HashMap<String,String>();
-    		
+    private CountryResolver(){}
 	static{
 		countries.put("AF", "Afghanistan");
 		countries.put("AL", "Albania");

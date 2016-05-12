@@ -17,6 +17,7 @@ import com.google.common.net.InetAddresses;
 
 import in.ankushs.dbip.model.GeoAttributes;
 import in.ankushs.dbip.model.GeoAttributesImpl;
+import in.ankushs.dbip.parser.CsvParser;
 import in.ankushs.dbip.parser.CsvParserImpl;
 import in.ankushs.dbip.repository.DbIpRepository;
 import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
@@ -31,10 +32,13 @@ import in.ankushs.dbip.utils.PreConditions;
 public final class ResourceImporter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
-	private final DbIpRepository repository = new JavaMapDbIpRepositoryImpl();
-	private ResourceImporter instance = null;
+	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
+	private final CsvParser csvParser =  CsvParserImpl.getInstance();
+	private static ResourceImporter instance = null;
 
-	public ResourceImporter getInstance() {
+	private ResourceImporter(){}
+	
+	public static ResourceImporter getInstance() {
 		if (instance == null) {
 			return new ResourceImporter();
 		}
@@ -66,7 +70,7 @@ public final class ResourceImporter {
 			int i = 0;
 			while ((line = reader.readLine()) != null) {
 				i++;
-				final String[] array = new CsvParserImpl().parseRecord(line);
+				final String[] array = csvParser.parseRecord(line);
 				final GeoAttributes geoAttributes = new GeoAttributesImpl.Builder().withCity(array[4])
 						.withCountry(CountryResolver.resolveToFullName(array[2])).withProvince(array[3])
 						.withEndIp(InetAddresses.forString(array[1])).withStartIp(InetAddresses.forString(array[0]))

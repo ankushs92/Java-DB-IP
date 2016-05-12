@@ -19,6 +19,8 @@ import in.ankushs.dbip.utils.PreConditions;
 public final class JavaMapDbIpRepositoryImpl implements DbIpRepository {
 	
 	private static JavaMapDbIpRepositoryImpl instance = null;
+	
+	private JavaMapDbIpRepositoryImpl(){}
 	public static JavaMapDbIpRepositoryImpl getInstance(){
 		if(instance==null){
 			return new JavaMapDbIpRepositoryImpl();

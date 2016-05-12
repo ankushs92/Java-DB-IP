@@ -15,13 +15,15 @@ import in.ankushs.dbip.utils.PreConditions;
 public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService {
 	
 	private static final String UNKNOWN = "Unknown";
-	private final DbIpRepository repository = new JavaMapDbIpRepositoryImpl();
 	
-	private GeoEntityLookupServiceImpl instance = null;
+	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
 	
-	public GeoEntityLookupServiceImpl getInstance(){
+	private static GeoEntityLookupServiceImpl instance = null;
+	
+	private GeoEntityLookupServiceImpl(){}
+	public static GeoEntityLookupServiceImpl getInstance(){
 		if(instance==null){
-			return this;
+			return new GeoEntityLookupServiceImpl();
 		}
 		return instance;
 	}
@@ -36,5 +38,9 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 								.withProvince(UNKNOWN).build();
 		}
 		return geoEntity;
+	}
+	
+	public static void main(String[] args) {
+		GeoEntityLookupService g1 = getInstance();
 	}
 }

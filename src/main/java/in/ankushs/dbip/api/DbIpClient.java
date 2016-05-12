@@ -28,8 +28,8 @@ public final class DbIpClient {
 	 * The dbip-city-latest.csv.gz file 
 	 * */
 	private final File file ;
-	
-	private final GeoEntityLookupService lookupService = new GeoEntityLookupServiceImpl();
+	//Singleton
+	private final GeoEntityLookupService lookupService = GeoEntityLookupServiceImpl.getInstance();
 	
 	/*
 	 * Indicates whether the file has been loaded into the JVM.
@@ -50,7 +50,7 @@ public final class DbIpClient {
 		if(!flag){
 			flag = true;
 			logger.info("Loading db ip into repository ");
-			new ResourceImporter().load(gzip);
+			ResourceImporter.getInstance().load(gzip);
 			logger.info("Loading finished");
 		}
 		else{

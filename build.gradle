@@ -1,12 +1,17 @@
 apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin : 'idea'
- 
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+
 sourceCompatibility = 1.8
+group ="in.ankushs"
+archivesBaseName = "dbip"
 version = '1.0'
 
 jar {
-    baseName = "Java DbIp"
+    baseName = "Java DB-IP"
     manifest {
         attributes 'Implementation-Title': 'Gradle Quickstart',
                    'Implementation-Version': version
@@ -44,11 +49,73 @@ eclipse {
   }
 }
 
+
+task javadocJar(type: Jar) {
+	classifier = 'javadoc'
+	from javadoc
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
+signing {
+	sign configurations.archives
+}
+
  
 uploadArchives {
     repositories {
-       flatDir {
-           dirs 'repos'
-       }
+	   mavenDeployer{
+		   beforeDeployment{MavenDeployment deployment->
+			   signing.signPom(deployment)
+		   }
+	    
+		   repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+			   authentication(userName: ossrhUsername, password: ossrhPassword)
+			 }
+	   	   
+		   pom{
+			   project{
+				   name 'Java DbIP'
+				   description 'A Java library for the DB-IP IP address to city dataset '
+				   packaging 'jar'
+				   url 'https://github.com/ankushs92/Java-DB-IP'
+			       inceptionYear '2016'
+				   
+				   scm {
+					   connection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
+					   developerConnection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
+					   url 'git@github.com:ankushs92/Java-DB-IP.git'
+					 }
+				   
+				   licenses {
+					   license {
+						 name 'The MIT License'
+						 url 'https://github.com/ankushs92/Java-DB-IP/blob/master/LICENSE.md'
+					   }
+				   }
+				   developers {
+					   developer {
+						 name 'Ankush Sharma'
+						 email 'ankush20058@gmail.com'
+					   }
+					}
+				   issueManagement{
+					   system 'Github'
+					   url 'https://github.com/ankushs92/Java-DB-IP/issues'
+					   
+				   }
+			   }
+		   }
+	       flatDir {
+	           dirs 'repos'
+	   }
     }
+  }
 }

@@ -11,7 +11,7 @@ import java.util.zip.GZIPInputStream;
  * @author Ankush Sharma
  */
 public class GzipUtils {
-	
+	private GzipUtils(){}
 	/**
 	 * Checks if the file is gzipped.
 	 * @param file The file to be tested
