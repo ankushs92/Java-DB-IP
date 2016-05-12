@@ -6,7 +6,7 @@ package in.ankushs.dbip.utils;
  * @author Ankush Sharma
  */
 
-public class PreConditions {
+public final class PreConditions {
 	
 	
   private PreConditions(){}

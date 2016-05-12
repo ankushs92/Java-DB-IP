@@ -16,7 +16,7 @@ class DbIpClientSpec extends BaseSpec {
 		then : "Should return some info.No exception thrown"
 		geoEntity.city == 'Columbus'
 		geoEntity.country == 'United States'
-		geoEntity.state == 'Ohio'
+		geoEntity.province == 'Ohio'
 
 	}
 	
