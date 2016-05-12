@@ -64,8 +64,8 @@ public final class DbIpClient {
 	 * If nothing can be resolved for an {@code ip} , then the city,state and country 
 	 * for the GeoEntity will be set to 'Unknown'
 	 * Any futher initializations of the DbIpClient  will not load data into memory again.
-	 * @param gzip The dbip-city-latest.csv.gz file as a File object.
-	 * @throws InvalidIPException if {@code ip} is not a valid IP address.
+	 * @param ip The ip (as String) to be resolved.
+	 * @return a GeoEntity object representing city,state and province info
 	 */
 	public GeoEntity lookup(final String ip){
 		InetAddress inetAddress = null;
@@ -83,8 +83,8 @@ public final class DbIpClient {
 	 * Returns a loaded GeoEntity object for a given {@code inetAddress}
 	 * If nothing can be resolved for an {@code inetAddress} , then the city,state and country 
 	 * for the GeoEntity will be set to 'Unknown'
-	 * @param gzip The dbip-city-latest.csv.gz file as a File object.
-	 * @throws InvalidIPException if {@code inetAddress} is not a valid IP address.
+	 * @param inetAddress The inetAddress (as InetAddress) to be resolved.
+	 * @return a GeoEntity object representing city,state and province info
 	 */
 	public GeoEntity lookup(final InetAddress inetAddress){
 		PreConditions.checkNull(inetAddress, "inetAddress cannot be null");

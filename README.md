@@ -5,6 +5,29 @@ A simple to use Java library for the freely available DB-IP [IP address to city 
 #Before you begin
 The entire dataset is loaded into a [TreeMap](https://docs.oracle.com/javase/8/docs/api/allclasses-noframe.html) . Make sure that you have about **3 GB of Heap space** available to load it.
 
+#Get 
+
+With maven :
+
+```xml
+
+<dependency>
+	  <groupId>in.ankushs</groupId>
+	  <artifactId>Java-DB-IP</artifactId>
+	  <version>1.0</version>
+</dependency>
+```
+
+Or gradle:
+
+```groovy
+
+compile('in.ankushs:Java-DB-IP:1.0')
+
+```
+
+The Javadocs for the latest release can be found [here](http://www.javadoc.io/doc/in.ankushs/Java-DB-IP/1.0)
+
 
 #Instructions
 In order to get geographical information for an ip address, just pass the `dbip-city-latest.csv.gz` as a File object to `DbIpClient` as follows:

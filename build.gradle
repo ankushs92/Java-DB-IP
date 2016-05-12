@@ -11,7 +11,7 @@ archivesBaseName = "dbip"
 version = '1.0'
 
 jar {
-    baseName = "Java DB-IP"
+    baseName = "Java-DB-IP"
     manifest {
         attributes 'Implementation-Title': 'Gradle Quickstart',
                    'Implementation-Version': version
@@ -31,13 +31,13 @@ dependencies {
   testCompile('org.codehaus.groovy:groovy-all:2.4.5')
 }
 
-sourceSets {
-	main {
-	  java { srcDirs = ["src/main/java"] }    // no source dirs for the java compiler
-	  groovy { srcDirs = ["src/test/groovy"] }  // compile everything in src/ with groovy
-	 }
-  }
- 
+//sourceSets {
+//	main {
+//	  java { srcDirs = ["src/main/java"] }    // no source dirs for the java compiler
+//	  groovy { srcDirs = ["src/test/groovy"] }  // compile everything in src/ with groovy
+//	 }
+//  }
+// 
 test {
     systemProperties 'property': 'value'
 }

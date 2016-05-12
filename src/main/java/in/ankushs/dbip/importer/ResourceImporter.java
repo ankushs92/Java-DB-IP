@@ -49,8 +49,7 @@ public final class ResourceImporter {
 	 * Loads the file into JVM,reading line by line.
 	 * Also transforms each line into a GeoEntity object, and save the object into the 
 	 * repository. 
-	 * @param gzip The dbip-city-latest.csv.gz file as a File object.
-	 * @throws IOException if {@code file} does not exist or is not gzipped.
+	 * @param file The dbip-city-latest.csv.gz file as a File object.
 	 */
 	public void load(final File file) {
 		
