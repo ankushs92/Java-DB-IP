@@ -61,6 +61,9 @@ country : Norway
 ```
 That's pretty much it.
 
+#Integrating with Spring Boot.
+Follow the detailed instructions on [this](http://ankushs92.github.io/libraries/2016/05/12/java-db-ip.html) blogpost . You can find the Spring Boot Java-DB-IP project [here](https://github.com/ankushs92/Spring-Boot-DB-IP) .
+
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ankushs92/java-db-ip/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
