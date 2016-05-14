@@ -211,5 +211,89 @@ class DbIpLookupSpec extends BaseSpec{
 		geoEntity.country == "Netherlands"
 		geoEntity.province == 'North Holland'
 	}
+	//1
+	def "Bangkok,จังหวัด กรุงเทพมหานคร,Thailand"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "1.0.255.255"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Bangkok'
+		geoEntity.country == "Thailand"
+		geoEntity.province == 'จังหวัด กรุงเทพมหานคร'
+	}
+	
+	def "Minato,Tokyo,Japan"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "1.1.112.245"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Minato'
+		geoEntity.country == "Japan"
+		geoEntity.province == 'Tokyo'
+	}
+	
+	def "Ahmedabad,Gujarat,India"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "1.23.30.240"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Ahmedabad'
+		geoEntity.country == "India"
+		geoEntity.province == 'Gujarat'
+	}
+	def "Melbourne,Victoria,Australia2"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "1.123.166.1"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Melbourne'
+		geoEntity.country == "Australia"
+		geoEntity.province == 'Victoria'
+	}
+	
+	def "Minsyong Township,Chiayi County,'Taiwan, Province Of China'"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "1.170.171.25"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Minsyong Township'
+		geoEntity.country == "'Taiwan, Province Of China'"
+		geoEntity.province == 'Chiayi County'
+	}
+	
+	def "Roma,Lazio,Italy"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "2.40.217.22"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Roma'
+		geoEntity.country == "Italy"
+		geoEntity.province == 'Lazio'
+	}
+	
+	def "Matamoros,Tamaulipas,Mexico"(){
+		given:
+		def client = new DbIpClient(file)
+	when:
+		def ip = "189.159.147.1"
+		GeoEntity geoEntity = client.lookup(ip)
+	then:
+		geoEntity.city == 'Matamoros'
+		geoEntity.country == "Mexico"
+		geoEntity.province == 'Tamaulipas'
+	}
+	
 
-}
+}	

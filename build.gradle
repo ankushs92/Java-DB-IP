@@ -30,14 +30,6 @@ dependencies {
   testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
   testCompile('org.codehaus.groovy:groovy-all:2.4.5')
 }
-
-//sourceSets {
-//	main {
-//	  java { srcDirs = ["src/main/java"] }    // no source dirs for the java compiler
-//	  groovy { srcDirs = ["src/test/groovy"] }  // compile everything in src/ with groovy
-//	 }
-//  }
-// 
 test {
     systemProperties 'property': 'value'
 }
