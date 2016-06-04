@@ -74,7 +74,7 @@ uploadArchives {
 	   	   
 		   pom{
 			   project{
-				   name 'Java DbIP'
+				   name 'Java-DbIP'
 				   description 'A Java library for the DB-IP IP address to city dataset '
 				   packaging 'jar'
 				   url 'https://github.com/ankushs92/Java-DB-IP'
