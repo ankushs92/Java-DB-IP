@@ -247,16 +247,16 @@ class DbIpLookupSpec extends BaseSpec{
 		geoEntity.country == "India"
 		geoEntity.province == 'Gujarat'
 	}
-	def "Melbourne,Victoria,Australia2"(){
+	def "Adelaide,South Australia,Australia"(){
 		given:
 		def client = new DbIpClient(file)
 	when:
 		def ip = "1.123.166.1"
 		GeoEntity geoEntity = client.lookup(ip)
 	then:
-		geoEntity.city == 'Melbourne'
+		geoEntity.city == 'Adelaide'
 		geoEntity.country == "Australia"
-		geoEntity.province == 'Victoria'
+		geoEntity.province == 'South Australia'
 	}
 	
 	def "Minsyong Township,Chiayi County,'Taiwan, Province Of China'"(){
