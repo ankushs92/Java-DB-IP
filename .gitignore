@@ -11,7 +11,7 @@ target/
  
 # OS Files #
 .DS_Store
- 
+.idea*
 *.class
  
 # Package Files #

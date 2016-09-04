@@ -1,0 +1,5 @@
+language: groovy
+jdk:
+  - oraclejdk8
+after_success:
+- gradle jacocoTestReport coveralls
