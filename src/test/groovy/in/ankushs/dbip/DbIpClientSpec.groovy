@@ -5,11 +5,12 @@ import in.ankushs.dbip.api.GeoEntity
 import in.ankushs.dbip.exceptions.InvalidIPException
 
 class DbIpClientSpec extends BaseSpec {
-	
+	def client
+	def setup(){
+		client = new DbIpClient(file)
+	}
 	
 	def "Pass a valid Ip.All should work fine"(){
-		given : "Some ip"
-			def ip = "164.249.132.41" 
 		when : "Call the client"
 			def client = new DbIpClient(file)
 			GeoEntity geoEntity = client.lookup(ip)

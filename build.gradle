@@ -3,8 +3,6 @@ apply plugin: 'eclipse'
 apply plugin : 'idea'
 apply plugin: 'maven'
 apply plugin: 'signing'
-apply plugin: "jacoco"
-apply plugin: "com.github.kt3k.coveralls"
 
 
 sourceCompatibility = 1.8
@@ -13,27 +11,6 @@ archivesBaseName = "dbip"
 version = '1.0'
 
 
-
-jacocoTestReport {
-	group = "Reporting"
-	reports {
-		xml.enabled true
-		csv.enabled false
-		html.enabled = true
-		html.destination "${buildDir}/reports/coverage"
-	}
-}
-
-buildscript {
-	repositories {
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-	}
-	dependencies {
-		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3"
-	}
-}
 
 
 
