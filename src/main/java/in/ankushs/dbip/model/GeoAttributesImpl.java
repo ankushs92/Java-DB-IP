@@ -5,8 +5,8 @@ import java.net.InetAddress;
 import in.ankushs.dbip.api.GeoEntity;
 
 public final class GeoAttributesImpl implements GeoAttributes {
-	private final InetAddress startIp;
-	private final InetAddress endIp;
+	private final int startIp;
+	private final int endIp;
 	private final String city;
 	private final String country;
 	private final String province ;
@@ -20,18 +20,18 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	}
 	
 	public static class Builder{
-		private  InetAddress startIp;
-		private  InetAddress endIp;
+		private  int startIp;
+		private  int endIp;
 		private  String city;
 		private  String country;
 		private  String province ;
 		
-		public Builder withStartIp(final InetAddress startIp){
+		public Builder withStartIp(final int startIp){
 			this.startIp = startIp;
 			return this;
 		}
 		
-		public Builder withEndIp(final InetAddress endIp){
+		public Builder withEndIp(final int endIp){
 			this.endIp = endIp;
 			return this;
 		}
@@ -60,12 +60,12 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	}
 
 	@Override
-	public InetAddress getStartIp() {
+	public int getStartIp() {
 		return startIp;
 	}
 
 	@Override
-	public InetAddress getEndIp() {
+	public int getEndIp() {
 		return endIp;
 	}
 

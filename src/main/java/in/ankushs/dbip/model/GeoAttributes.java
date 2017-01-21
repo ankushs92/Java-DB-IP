@@ -5,7 +5,7 @@ import java.net.InetAddress;
 import in.ankushs.dbip.api.GeoEntity;
 
 public interface GeoAttributes {
-	InetAddress getStartIp();
-	InetAddress getEndIp();
+	int getStartIp();
+	int getEndIp();
 	GeoEntity getGeoEntity();
 }

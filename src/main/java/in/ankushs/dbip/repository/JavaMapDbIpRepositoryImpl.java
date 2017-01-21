@@ -52,7 +52,7 @@ public final class JavaMapDbIpRepositoryImpl implements DbIpRepository {
 	@Override
 	public void save(final GeoAttributes geoAttributes) {
 		PreConditions.checkNull(geoAttributes, "geoAttributes must not be null");
-		final Integer startIpNum = InetAddresses.coerceToInteger(geoAttributes.getStartIp());
+		final Integer startIpNum = geoAttributes.getStartIp();
 		final GeoEntity geoEntity = geoAttributes.getGeoEntity();
 		repository.put(startIpNum,geoEntity);
 	}
