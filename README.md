@@ -3,7 +3,7 @@ A simple to use Java library for the freely available DB-IP [IP address to city 
 **Requires Java 8**
 
 #Before you begin
-The entire dataset is loaded into a [TreeMap](https://docs.oracle.com/javase/8/docs/api/allclasses-noframe.html) . Make sure that you have about **3 GB of Heap space** available to load it.
+The entire dataset is loaded into a [TreeMap](https://docs.oracle.com/javase/8/docs/api/allclasses-noframe.html) . Make sure that you have about **2 GB of Heap space** available to load it.
 
 #Get 
 
