@@ -1,5 +1,7 @@
 package in.ankushs.dbip.importer;
 
+import com.google.common.collect.Interner;
+import com.google.common.collect.Interners;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +38,8 @@ public final class ResourceImporter {
 	private final CsvParser csvParser =  CsvParserImpl.getInstance();
 	private static ResourceImporter instance = null;
 
+	private Interner<String> interner = Interners.newWeakInterner();
+
 	private ResourceImporter(){}
 	
 	public static ResourceImporter getInstance() {
@@ -70,9 +74,12 @@ public final class ResourceImporter {
 			while ((line = reader.readLine()) != null) {
 				i++;
 				final String[] array = csvParser.parseRecord(line);
-				final GeoAttributes geoAttributes = new GeoAttributesImpl.Builder().withCity(array[4])
-						.withCountry(CountryResolver.resolveToFullName(array[2])).withProvince(array[3])
-						.withEndIp(InetAddresses.forString(array[1])).withStartIp(InetAddresses.forString(array[0]))
+				final GeoAttributes geoAttributes = new GeoAttributesImpl.Builder()
+						.withCity(interner.intern(array[4]))
+						.withCountry(CountryResolver.resolveToFullName(array[2]))
+						.withProvince(interner.intern(array[3]))
+						.withEndIp(InetAddresses.coerceToInteger(InetAddresses.forString(array[1])))
+						.withStartIp(InetAddresses.coerceToInteger(InetAddresses.forString(array[0])))
 						.build();
 				repository.save(geoAttributes);
 				if (i % 100000 == 0) {
