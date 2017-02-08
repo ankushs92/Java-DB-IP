@@ -5,38 +5,48 @@ import java.net.InetAddress;
 import in.ankushs.dbip.api.GeoEntity;
 
 public final class GeoAttributesImpl implements GeoAttributes {
-	private final int startIp;
-	private final int endIp;
+
 	private final String city;
 	private final String country;
 	private final String province ;
+	private final String countryCode;
+	private final InetAddress startInetAddress;
+	private final InetAddress endInetAddress;
+
 	
 	private GeoAttributesImpl(final Builder builder){
-		this.startIp = builder.startIp;
-		this.endIp = builder.endIp;
+		this.startInetAddress = builder.startInetAddress;
+		this.endInetAddress = builder.endInetAddress;
 		this.city = builder.city;
 		this.country = builder.country;
 		this.province = builder.province;
+		this.countryCode = builder.countryCode;
 	}
 	
 	public static class Builder{
-		private  int startIp;
-		private  int endIp;
+		private  InetAddress startInetAddress;
+		private  InetAddress endInetAddress;
 		private  String city;
 		private  String country;
 		private  String province ;
-		
-		public Builder withStartIp(final int startIp){
-			this.startIp = startIp;
+		private  String countryCode;
+
+
+		public Builder withStartInetAddress(final InetAddress startInetAddress){
+			this.startInetAddress = startInetAddress;
 			return this;
 		}
-		
-		public Builder withEndIp(final int endIp){
-			this.endIp = endIp;
+
+		public Builder withCountryCode(final String countryCode){
+			this.countryCode = countryCode;
 			return this;
 		}
-		
-		
+		public Builder withEndInetAddress(final InetAddress endInetAddress){
+			this.endInetAddress = endInetAddress;
+			return this;
+		}
+
+
 		public Builder withCity(final String city){
 			this.city = city;
 			return this;
@@ -59,21 +69,26 @@ public final class GeoAttributesImpl implements GeoAttributes {
 		}
 	}
 
+
+
 	@Override
-	public int getStartIp() {
-		return startIp;
+	public InetAddress getStartInetAddress() {
+		return startInetAddress;
 	}
 
 	@Override
-	public int getEndIp() {
-		return endIp;
+	public InetAddress getEndInetAddress() {
+		return endInetAddress;
 	}
 
 	@Override
 	public GeoEntity getGeoEntity() {
 		return new GeoEntity.Builder()
-						.withCity(city).withCountry(country)
-						.withProvince(province).build();
+						.withCity(city)
+						.withCountry(country)
+						.withCountryCode(countryCode)
+						.withProvince(province)
+						.build();
 	}
 	
 	

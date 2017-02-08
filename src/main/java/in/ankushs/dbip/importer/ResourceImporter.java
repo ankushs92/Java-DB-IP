@@ -63,10 +63,11 @@ public final class ResourceImporter {
 			logger.error("",ex);
 		}
 		
-		try (InputStream fis = new FileInputStream(file);
-			InputStream gis = new GZIPInputStream(fis);
-			Reader decorator = new InputStreamReader(gis, StandardCharsets.UTF_8);
-			BufferedReader reader = new BufferedReader(decorator);)
+		try (final InputStream fis = new FileInputStream(file);
+			 final InputStream gis = new GZIPInputStream(fis);
+			 final Reader decorator = new InputStreamReader(gis, StandardCharsets.UTF_8);
+			 final BufferedReader reader = new BufferedReader(decorator);
+		)
 	{
 			logger.debug("Reading dbip data from {}", file.getName());
 			String line = null;
@@ -74,19 +75,23 @@ public final class ResourceImporter {
 			while ((line = reader.readLine()) != null) {
 				i++;
 				final String[] array = csvParser.parseRecord(line);
-				final GeoAttributes geoAttributes = new GeoAttributesImpl.Builder()
-						.withCity(interner.intern(array[4]))
+				final GeoAttributes geoAttributes = new GeoAttributesImpl
+						.Builder()
+						.withStartInetAddress(InetAddresses.forString(array[0]))
+						.withEndInetAddress(InetAddresses.forString(array[1]))
+						.withCountryCode(array[2])
 						.withCountry(CountryResolver.resolveToFullName(array[2]))
 						.withProvince(interner.intern(array[3]))
-						.withEndIp(InetAddresses.coerceToInteger(InetAddresses.forString(array[1])))
-						.withStartIp(InetAddresses.coerceToInteger(InetAddresses.forString(array[0])))
+						.withCity(interner.intern(array[4]))
 						.build();
 				repository.save(geoAttributes);
 				if (i % 100000 == 0) {
 					logger.debug("Loaded {} entries", i);
 				}
 			}
-		} catch (final Exception e) {
+		}
+
+		catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

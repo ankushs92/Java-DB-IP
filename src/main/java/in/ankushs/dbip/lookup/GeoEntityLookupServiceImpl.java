@@ -1,7 +1,9 @@
 package in.ankushs.dbip.lookup;
 
+import java.io.File;
 import java.net.InetAddress;
 
+import in.ankushs.dbip.api.DbIpClient;
 import in.ankushs.dbip.api.GeoEntity;
 import in.ankushs.dbip.repository.DbIpRepository;
 import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
@@ -33,14 +35,14 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 		PreConditions.checkNull(inetAddress, "inetAddress cannot be null ");
 	    GeoEntity geoEntity = repository.get(inetAddress);
 		if( geoEntity == null ){
-			geoEntity = new GeoEntity.Builder()
-								.withCity(UNKNOWN).withCountry(UNKNOWN)
-								.withProvince(UNKNOWN).build();
+			geoEntity = new GeoEntity
+								.Builder()
+								.withCity(UNKNOWN)
+								.withCountry(UNKNOWN)
+								.withCountryCode(UNKNOWN)
+								.withProvince(UNKNOWN)
+								.build();
 		}
 		return geoEntity;
-	}
-	
-	public static void main(String[] args) {
-		GeoEntityLookupService g1 = getInstance();
 	}
 }

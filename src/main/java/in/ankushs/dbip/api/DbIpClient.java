@@ -2,6 +2,8 @@ package in.ankushs.dbip.api;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -90,5 +92,4 @@ public final class DbIpClient {
 		PreConditions.checkNull(inetAddress, "inetAddress cannot be null");
 		return lookupService.lookup(inetAddress);
 	}
-	
 }

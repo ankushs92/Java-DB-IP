@@ -10,17 +10,25 @@ public final class GeoEntity {
 	private final String city;
 	private final String country;
 	private final String province;
-	
+	private final String countryCode;
+
 	public GeoEntity(final Builder builder){
 		this.city = builder.city;
 		this.country = builder.country;
 		this.province = builder.province;
+		this.countryCode = builder.countryCode;
 	}
 	
 	public static class Builder{
+		private String countryCode;
 		private String city;
 		private String country;
 		private String province;
+
+		public Builder withCountryCode(final String countryCode){
+			this.countryCode = countryCode;
+			return this;
+		}
 		
 		public Builder withCity(final String city ){
 			this.city = city;
@@ -54,10 +62,18 @@ public final class GeoEntity {
 		return province;
 	}
 
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
 	@Override
 	public String toString() {
-		return "GeoEntity [city=" + city + ", country=" + country + ", province=" + province + "]";
+		return "GeoEntity{" +
+				"city='" + city + '\'' +
+				", country='" + country + '\'' +
+				", province='" + province + '\'' +
+				", countryCode='" + countryCode + '\'' +
+				'}';
 	}
-	
-	
 }
