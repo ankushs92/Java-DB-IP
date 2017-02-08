@@ -14,7 +14,7 @@ With maven :
 <dependency>
 	  <groupId>in.ankushs</groupId>
 	  <artifactId>Java-DB-IP</artifactId>
-	  <version>1.0</version>
+	  <version>2.0</version>
 </dependency>
 ```
 
@@ -22,11 +22,11 @@ Or gradle:
 
 ```groovy
 
-compile('in.ankushs:Java-DB-IP:1.0')
+compile('in.ankushs:Java-DB-IP:2.0')
 
 ```
 
-The Javadocs for the latest release can be found [here](http://www.javadoc.io/doc/in.ankushs/Java-DB-IP/1.0)
+The Javadocs for the latest release can be found [here](http://www.javadoc.io/doc/in.ankushs/Java-DB-IP/2.0)
 
 
 #Instructions
@@ -47,18 +47,35 @@ GeoEntity geoEntity = client.lookup("31.45.127.255");
 String city = geoEntity.getCity();
 String country = geoEntity.getCountry();
 String province = geoEntity.getProvince();
+String countryCode = geoEntity.getCountryCode();
 
 System.out.println("city : " + city);
 System.out.println("province : " + province);
 System.out.println("country : " + country);
-```
+System.out.println("country code : " + countryCode);
 
 This prints : 
+
 ```
 city : Oslo
 province : Oslo
 country : Norway
+country code : NO
 ```
+
+```
+
+For IPV6, do the same :
+
+```java
+DbIpClient client = new DbIpClient(gzip);
+String ipv6 = "2c0f:f468:ffff:ffff:ffff:ffff:ffff:ffff";
+GeoEntity geoEntity = client.lookup(ipv6);
+
+```
+
+
+
 That's pretty much it.
 
 #Integrating with Spring Boot.

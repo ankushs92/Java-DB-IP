@@ -8,10 +8,7 @@ apply plugin: 'signing'
 sourceCompatibility = 1.8
 group ="in.ankushs"
 archivesBaseName = "dbip"
-version = '1.0'
-
-
-
+version = '2.0'
 
 
 jar {
@@ -44,8 +41,8 @@ eclipse {
      containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
   }
 }
-
-
+//
+//
 //task javadocJar(type: Jar) {
 //	classifier = 'javadoc'
 //	from javadoc
@@ -79,7 +76,7 @@ eclipse {
 //		   pom{
 //			   project{
 //				   name 'Java-DbIP'
-//				   description 'A Java library for the DB-IP IP address to city dataset '
+//				   description 'A Java library for the DB-IP free city dataset '
 //				   packaging 'jar'
 //				   url 'https://github.com/ankushs92/Java-DB-IP'
 //			       inceptionYear '2016'
