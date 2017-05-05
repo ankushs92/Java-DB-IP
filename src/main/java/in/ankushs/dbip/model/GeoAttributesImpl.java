@@ -10,6 +10,7 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	private final String country;
 	private final String province ;
 	private final String countryCode;
+	private final String isp;
 	private final InetAddress startInetAddress;
 	private final InetAddress endInetAddress;
 
@@ -21,6 +22,7 @@ public final class GeoAttributesImpl implements GeoAttributes {
 		this.country = builder.country;
 		this.province = builder.province;
 		this.countryCode = builder.countryCode;
+		this.isp = builder.isp;
 	}
 	
 	public static class Builder{
@@ -30,8 +32,13 @@ public final class GeoAttributesImpl implements GeoAttributes {
 		private  String country;
 		private  String province ;
 		private  String countryCode;
+		private String isp;
 
 
+		public Builder withIsp(final String isp){
+			this.isp = isp;
+			return this;
+		}
 		public Builder withStartInetAddress(final InetAddress startInetAddress){
 			this.startInetAddress = startInetAddress;
 			return this;
@@ -88,6 +95,7 @@ public final class GeoAttributesImpl implements GeoAttributes {
 						.withCountry(country)
 						.withCountryCode(countryCode)
 						.withProvince(province)
+						.withIsp(isp)
 						.build();
 	}
 	
