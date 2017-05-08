@@ -91,4 +91,8 @@ public final class JavaMapDbIpRepositoryImpl implements DbIpRepository {
 			logger.warn("This shouldn't ever happen");
 		}
 	}
+
+	public static TreeMap<Integer, GeoEntity> getIpv4Repository() {
+		return IPV4_REPOSITORY;
+	}
 }

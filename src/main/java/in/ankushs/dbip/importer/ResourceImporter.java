@@ -83,7 +83,6 @@ public final class ResourceImporter {
 					 isp = interner.intern(array[12]);
 				}
 				catch(Exception ex){
-
 				}
 
 				final GeoAttributes geoAttributes = new GeoAttributesImpl
@@ -105,9 +104,7 @@ public final class ResourceImporter {
 		}
 
 		catch (final Exception e) {
-			Arrays.asList(array).forEach(a->{
-				System.out.println(a);
-			});
+
 			throw new RuntimeException(e);
 		}
 	}

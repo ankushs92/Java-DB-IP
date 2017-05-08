@@ -4,9 +4,11 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.TreeMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,5 +93,10 @@ public final class DbIpClient {
 	public GeoEntity lookup(final InetAddress inetAddress){
 		PreConditions.checkNull(inetAddress, "inetAddress cannot be null");
 		return lookupService.lookup(inetAddress);
+	}
+
+
+	public TreeMap<Integer,GeoEntity> getIpv4Repo(){
+		return  JavaMapDbIpRepositoryImpl.getIpv4Repository();
 	}
 }
