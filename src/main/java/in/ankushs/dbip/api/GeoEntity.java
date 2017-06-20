@@ -1,6 +1,5 @@
 package in.ankushs.dbip.api;
 
-import in.ankushs.dbip.utils.PreConditions;
 /**
  * 
  *
@@ -11,19 +10,28 @@ public final class GeoEntity {
 	private final String country;
 	private final String province;
 	private final String countryCode;
+	private final String isp;
 
 	public GeoEntity(final Builder builder){
 		this.city = builder.city;
 		this.country = builder.country;
 		this.province = builder.province;
 		this.countryCode = builder.countryCode;
+		this.isp = builder.isp;
 	}
-	
+	 
 	public static class Builder{
 		private String countryCode;
 		private String city;
 		private String country;
 		private String province;
+		private String isp;
+
+
+		public Builder withIsp(final String isp){
+			this.isp = isp;
+			return this;
+		}
 
 		public Builder withCountryCode(final String countryCode){
 			this.countryCode = countryCode;
@@ -63,10 +71,6 @@ public final class GeoEntity {
 	}
 
 
-	public String getCountryCode() {
-		return countryCode;
-	}
-
 	@Override
 	public String toString() {
 		return "GeoEntity{" +
@@ -74,6 +78,15 @@ public final class GeoEntity {
 				", country='" + country + '\'' +
 				", province='" + province + '\'' +
 				", countryCode='" + countryCode + '\'' +
+				", isp='" + isp + '\'' +
 				'}';
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public String getIsp() {
+		return isp;
 	}
 }
