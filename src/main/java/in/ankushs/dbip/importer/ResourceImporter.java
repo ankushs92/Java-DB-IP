@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 
 import org.slf4j.Logger;
@@ -62,6 +63,8 @@ public final class ResourceImporter {
 		} catch (final IOException ex) {
 			logger.error("",ex);
 		}
+
+		String[] array = null;
 		
 		try (final InputStream fis = new FileInputStream(file);
 			 final InputStream gis = new GZIPInputStream(fis);
@@ -74,7 +77,14 @@ public final class ResourceImporter {
 			int i = 0;
 			while ((line = reader.readLine()) != null) {
 				i++;
-				final String[] array = csvParser.parseRecord(line);
+				array = csvParser.parseRecord(line);
+				String isp = "";
+				try{
+					 isp = interner.intern(array[12]);
+				}
+				catch(Exception ex){
+				}
+
 				final GeoAttributes geoAttributes = new GeoAttributesImpl
 						.Builder()
 						.withStartInetAddress(InetAddresses.forString(array[0]))
@@ -83,7 +93,9 @@ public final class ResourceImporter {
 						.withCountry(CountryResolver.resolveToFullName(array[2]))
 						.withProvince(interner.intern(array[3]))
 						.withCity(interner.intern(array[4]))
+						.withIsp(isp)
 						.build();
+
 				repository.save(geoAttributes);
 				if (i % 100000 == 0) {
 					logger.debug("Loaded {} entries", i);
@@ -92,6 +104,7 @@ public final class ResourceImporter {
 		}
 
 		catch (final Exception e) {
+
 			throw new RuntimeException(e);
 		}
 	}
