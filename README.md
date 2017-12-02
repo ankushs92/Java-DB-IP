@@ -5,7 +5,7 @@ A simple to use Java library for the freely available DB-IP [IP address to city 
 
 The entire dataset is loaded into a [TreeMap](https://docs.oracle.com/javase/8/docs/api/allclasses-noframe.html) . Make sure that you have about **2 GB of Heap space** available to load it.
 
-#Get 
+# Links 
 
 With maven :
 
@@ -84,4 +84,6 @@ That's pretty much it.
 The code is stunningly fast. A lookup request is resolved within 0.1 ms.
 
 # Integrating with Spring Boot
-You can find the Spring Boot Java-DB-IP project [here](https://github.com/ankushs92/Spring-Boot-DB-IP) .
+You can find the Spring Boot Java-DB-IP project [here](https://github.com/ankushs92/Spring-Boot-DB-IP)
+
+
