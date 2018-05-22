@@ -7,7 +7,6 @@ apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 group ="in.ankushs"
-archivesBaseName = "dbip"
 version = '2.0'
 
 
@@ -24,6 +23,7 @@ repositories {
 }
  
 dependencies {
+  compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
   compile('com.google.guava:guava:19.0')
   compile('ch.qos.logback:logback-classic:1.1.4')
   compile('ch.qos.logback:logback-core:1.1.4')
@@ -31,16 +31,7 @@ dependencies {
   testCompile('org.spockframework:spock-core:1.0-groovy-2.4')
   testCompile('org.codehaus.groovy:groovy-all:2.4.5')
 }
-test {
-    systemProperties 'property': 'value'
-}
 
-eclipse {
-  classpath {
-     containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-     containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-  }
-}
 //
 //
 //task javadocJar(type: Jar) {

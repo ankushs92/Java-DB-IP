@@ -1,62 +1,51 @@
 package in.ankushs.dbip.api;
 
-import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.net.InetAddresses;
-
+import in.ankushs.dbip.cache.JavaTreeMapDbIpCacheImpl;
+import in.ankushs.dbip.domain.GeoEntity;
 import in.ankushs.dbip.exceptions.InvalidIPException;
 import in.ankushs.dbip.importer.ResourceImporter;
-import in.ankushs.dbip.lookup.GeoEntityLookupService;
-import in.ankushs.dbip.lookup.GeoEntityLookupServiceImpl;
-import in.ankushs.dbip.utils.PreConditions;
+import in.ankushs.dbip.utils.Assert;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+
+import java.io.File;
+import java.net.InetAddress;
+
+import static java.lang.Boolean.valueOf;
+
 /**
  * 
- * Class responsible for loading data into the JVM and also an API for resolving ip.
+ * Loads file to memory and looks up ip address .
  * @author Ankush Sharma
  */
+@Slf4j
 public final class DbIpClient {
-	
-	private static final Logger logger = LoggerFactory.getLogger(DbIpClient.class);
 
-	/*
-	 * The dbip-city-latest.csv.gz file 
-	 * */
-	private final File file ;
-	//Singleton
-	private final GeoEntityLookupService lookupService = GeoEntityLookupServiceImpl.getInstance();
-	
 	/*
 	 * Indicates whether the file has been loaded into the JVM.
 	 * */
 	private static boolean flag = false;
 	
-	
 	/**
 	 * Create a new DbIpClient . 
 	 * Once an instance has been created, the allLoaded flag is set to true.
-	 * Any futher initializations of the DbIpClient  will not load data into memory again.
+	 * Any futher initializations of this constructor will not load data into the JVM again.
 	 * @param gzip The dbip-city-latest.csv.gz file as a File object.
 	 * @throws IllegalArgumentException if {@code gzip} does not exist.
 	 */
-	public DbIpClient(final File gzip){
-		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
-		this.file = gzip;
-		if(!flag){
-			flag = true;
-			logger.info("Loading db ip into repository ");
-			ResourceImporter.getInstance().load(gzip);
-			logger.info("Loading finished");
-		}
-		else{
-			logger.info(" DbIp csv file has already been loaded ");
+	public DbIpClient(final File gzip) {
+		Assert.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
+		synchronized (valueOf(flag)) {
+			if(!flag) {
+				flag = true;
+				log.info("Loading file into repository ");
+				new ResourceImporter().load(gzip);
+				log.info("Loading finished");
+			}
+			else {
+				log.info(" DbIp csv file has already been loaded ");
+			}
 		}
 	}
 	
@@ -69,14 +58,13 @@ public final class DbIpClient {
 	 * @param ip The ip (as String) to be resolved.
 	 * @return a GeoEntity object representing city,state and province info
 	 */
-	public GeoEntity lookup(final String ip){
-		InetAddress inetAddress = null;
-		try{
+	public GeoEntity lookup(final String ip) {
+		InetAddress inetAddress;
+		try {
 			inetAddress = InetAddresses.forString(ip);
 		}
-		catch(final IllegalArgumentException ex){
-			logger.error("Invalid IP given",ex);
-			throw new InvalidIPException("Invalid IP passed");
+		catch(final IllegalArgumentException ex) {
+			throw new InvalidIPException("Invalid IP passed : " + ip);
 		}
 		return lookup(inetAddress);
 	}
@@ -88,8 +76,23 @@ public final class DbIpClient {
 	 * @param inetAddress The inetAddress (as InetAddress) to be resolved.
 	 * @return a GeoEntity object representing city,state and province info
 	 */
-	public GeoEntity lookup(final InetAddress inetAddress){
-		PreConditions.checkNull(inetAddress, "inetAddress cannot be null");
-		return lookupService.lookup(inetAddress);
+	public GeoEntity lookup(final InetAddress inetAddress) {
+		Assert.notNull(inetAddress, "inetAddress cannot be null");
+		val cache = new JavaTreeMapDbIpCacheImpl();
+		return cache.get(inetAddress);
+	}
+
+	public static void main(String[] args) {
+		val ip = "103.54.24.110";
+		val dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Downloads/dbip-city-2018-05.csv.gz"));
+		System.out.println(dbIpClient.lookup(ip));
+
+		System.out.println(dbIpClient.lookup("1.1.1.1"));
+		System.out.println(dbIpClient.lookup("1.1.1.1"));
+		System.out.println(dbIpClient.lookup("1.1.1.1"));
+		System.out.println(dbIpClient.lookup("1.1.1.1"));
+		System.out.println(dbIpClient.lookup("1.1.1.1"));
+		System.out.println(dbIpClient.lookup("1.1.1.1"));
+
 	}
 }

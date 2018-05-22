@@ -1,7 +1,7 @@
 package in.ankushs.dbip
 
 import in.ankushs.dbip.api.DbIpClient
-import in.ankushs.dbip.api.GeoEntity
+import in.ankushs.dbip.domain.GeoEntity
 import spock.lang.Specification
 
 \

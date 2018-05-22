@@ -6,10 +6,10 @@ package in.ankushs.dbip.utils;
  * @author Ankush Sharma
  */
 
-public final class PreConditions {
+public final class Assert {
 	
 	
-  private PreConditions(){}
+  private Assert(){}
 	
   /**
    * Ensures the object passed to the method is not null
@@ -18,7 +18,7 @@ public final class PreConditions {
    * @param errorMsg The message to throw in case {@code t} turns out to be null.
    * @throws IllegalArgumentException if {@code t} is null
    */
-	public static <T> void checkNull(final T  t , final String errorMsg){
+	public static <T> void notNull(final T  t , final String errorMsg){
 		if(t==null){
 			throw new IllegalArgumentException(errorMsg);
 		}
@@ -32,7 +32,7 @@ public final class PreConditions {
       * @param errorMsg The message to throw in case {@code str} turns out to have no text.
       * @throws IllegalArgumentException if {@code str} has no text
 	 */
-	public static void checkEmptyString(final String str , final String errorMsg){
+	public static void notEmptyString(final String str , final String errorMsg){
 		if(!Strings.hasText(str)){
 			throw new IllegalArgumentException(errorMsg);
 		}
@@ -45,8 +45,8 @@ public final class PreConditions {
      * @param errorMsg The message to throw in case {@code expression} turns out to be false.
      * @throws IllegalArgumentException if {@code expression} is expression
 	 */
-	public static  void checkExpression(final boolean expression , final String errorMsg){
-		if(expression){
+	public static void checkExpression(final boolean expression , final String errorMsg){
+		if(expression) {
 			throw new IllegalArgumentException(errorMsg);
 		}
 	}

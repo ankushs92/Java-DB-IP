@@ -8,7 +8,7 @@ doc/
 .gradle/
 /bin/
 target/
- 
+/out/
 # OS Files #
 .DS_Store
 .idea*

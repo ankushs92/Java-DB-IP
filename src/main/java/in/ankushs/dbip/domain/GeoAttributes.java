@@ -1,8 +1,6 @@
-package in.ankushs.dbip.model;
+package in.ankushs.dbip.domain;
 
 import java.net.InetAddress;
-
-import in.ankushs.dbip.api.GeoEntity;
 
 public interface GeoAttributes {
 

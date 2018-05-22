@@ -1,8 +1,6 @@
-package in.ankushs.dbip.model;
+package in.ankushs.dbip.domain;
 
 import java.net.InetAddress;
-
-import in.ankushs.dbip.api.GeoEntity;
 
 public final class GeoAttributesImpl implements GeoAttributes {
 
@@ -12,7 +10,6 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	private final String countryCode;
 	private final InetAddress startInetAddress;
 	private final InetAddress endInetAddress;
-
 	
 	private GeoAttributesImpl(final Builder builder){
 		this.startInetAddress = builder.startInetAddress;
@@ -83,12 +80,13 @@ public final class GeoAttributesImpl implements GeoAttributes {
 
 	@Override
 	public GeoEntity getGeoEntity() {
-		return new GeoEntity.Builder()
-						.withCity(city)
-						.withCountry(country)
-						.withCountryCode(countryCode)
-						.withProvince(province)
-						.build();
+		return GeoEntity
+					.builder()
+						.city(city)
+						.country(country)
+						.countryCode(countryCode)
+						.province(province)
+					 .build();
 	}
 	
 	
