@@ -34,17 +34,18 @@ public final class JavaTreeMapDbIpCacheImpl implements DbIpCache {
 	@Override
 	public GeoEntity get(final InetAddress inetAddress) {
 		Assert.notNull(inetAddress, "inetAddress must not be null");
+		GeoEntity result;
 		if(inetAddress instanceof Inet4Address) {
 			val startIpNum = InetAddresses.coerceToInteger(inetAddress);
-
-			return Objects.isNull(IPV4_CACHE.floorEntry(startIpNum)) ? GeoEntity.EMPTY
+			result = Objects.isNull(IPV4_CACHE.floorEntry(startIpNum)) ? GeoEntity.EMPTY
 					: IPV4_CACHE.floorEntry(startIpNum).getValue() ;
 		}
 		else {
 			val startIpBigInt = IPUtils.ipv6ToBigInteger(inetAddress);
-			return Objects.isNull(IPV6_CACHE.floorEntry(startIpBigInt)) ? GeoEntity.EMPTY
+			result =  Objects.isNull(IPV6_CACHE.floorEntry(startIpBigInt)) ? GeoEntity.EMPTY
 					: IPV6_CACHE.floorEntry(startIpBigInt).getValue();
 		}
+		return result;
 	}
 
 	/**
@@ -57,15 +58,11 @@ public final class JavaTreeMapDbIpCacheImpl implements DbIpCache {
 		val endInetAddress = geoAttributes.getEndInetAddress();
 		val geoEntity = geoAttributes.getGeoEntity();
 
-		if(startInetAddress instanceof Inet6Address
-				&& endInetAddress instanceof Inet6Address)
-		{
+		if(startInetAddress instanceof Inet6Address && endInetAddress instanceof Inet6Address) {
 			val startIpBigInt = IPUtils.ipv6ToBigInteger(startInetAddress);
 			IPV6_CACHE.put(startIpBigInt, geoEntity);
 		}
-		else if (startInetAddress instanceof Inet4Address
-				&& endInetAddress instanceof Inet4Address)
-		{
+		else if (startInetAddress instanceof Inet4Address && endInetAddress instanceof Inet4Address) {
 			val startIpNum = InetAddresses.coerceToInteger(startInetAddress);
 			IPV4_CACHE.put(startIpNum,geoEntity);
 		}
