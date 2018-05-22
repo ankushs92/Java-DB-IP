@@ -70,7 +70,6 @@ public final class ResourceImporter {
 				}
 			}
 		}
-
 		catch (final Exception e) {
 			throw new RuntimeException(e);
 		}

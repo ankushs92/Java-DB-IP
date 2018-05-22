@@ -44,7 +44,6 @@ public final class JavaTreeMapDbIpCacheImpl implements DbIpCache {
 			val startIpBigInt = IPUtils.ipv6ToBigInteger(inetAddress);
 			return Objects.isNull(IPV6_CACHE.floorEntry(startIpBigInt)) ? GeoEntity.EMPTY
 					: IPV6_CACHE.floorEntry(startIpBigInt).getValue();
-
 		}
 	}
 

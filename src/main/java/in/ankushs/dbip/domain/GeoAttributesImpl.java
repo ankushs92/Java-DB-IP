@@ -11,7 +11,7 @@ public final class GeoAttributesImpl implements GeoAttributes {
 	private final InetAddress startInetAddress;
 	private final InetAddress endInetAddress;
 	
-	private GeoAttributesImpl(final Builder builder){
+	private GeoAttributesImpl(final Builder builder) {
 		this.startInetAddress = builder.startInetAddress;
 		this.endInetAddress = builder.endInetAddress;
 		this.city = builder.city;
