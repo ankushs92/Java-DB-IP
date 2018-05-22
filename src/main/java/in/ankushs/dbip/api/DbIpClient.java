@@ -81,9 +81,4 @@ public final class DbIpClient {
 		val cache = new JavaTreeMapDbIpCacheImpl();
 		return cache.get(inetAddress);
 	}
-
-	public static void main(String[] args) {
-		val db = new DbIpClient(new File("/Users/ankushsharma/Downloads/dbip-city-2018-05.csv.gz"));
-		System.out.println(db.lookup("103.54.24.110"));
-	}
 }
