@@ -28,23 +28,6 @@ public final class ResourceImporter {
     private static final String COMMA_DELIMITER = ",";
     private static final Interner<String> interner = Interners.newWeakInterner();
 
-    private static String[] parseRecord(final String csvRecord) {
-        Assert.notEmptyString(csvRecord, "null or empty csvRecord was passed");
-
-        return Arrays
-                .stream(csvRecord.split(COMMA_DELIMITER))
-                .map(str -> normalize(str.replace("\"", "")))
-                .toArray(String[]::new);
-    }
-
-    private static String normalize(final String str) {
-        String result = str;
-        if (Strings.requiresTrimming(str)) {
-            result = str.trim();
-        }
-        return result;
-    }
-
     /**
      * Loads the file into JVM, reading line by line.
      * @param file The dbip-city-latest.csv.gz file as a File object.
@@ -72,12 +55,12 @@ public final class ResourceImporter {
                 val array = parseRecord(line);
                 val geoAttributes = new GeoAttributesImpl
                         .Builder()
-                        .withStartInetAddress(InetAddresses.forString(array[0]))
-                        .withEndInetAddress(InetAddresses.forString(array[1]))
-                        .withCountryCode(array[2])
-                        .withCountry(Country.from(array[2]))
-                        .withProvince(interner.intern(array[3]))
-                        .withCity(interner.intern(array[4]))
+                            .withStartInetAddress(InetAddresses.forString(array[0]))
+                            .withEndInetAddress(InetAddresses.forString(array[1]))
+                            .withCountryCode(array[2])
+                            .withCountry(Country.from(array[2]))
+                            .withProvince(interner.intern(array[3]))
+                            .withCity(interner.intern(array[4]))
                         .build();
                 cache.put(geoAttributes);
                 if (i % 100000 == 0) {
@@ -88,5 +71,23 @@ public final class ResourceImporter {
             throw new RuntimeException(e);
         }
     }
+
+    private static String[] parseRecord(final String csvRecord) {
+        Assert.notEmptyString(csvRecord, "null or empty csvRecord was passed");
+
+        return Arrays
+                .stream(csvRecord.split(COMMA_DELIMITER))
+                .map(str -> normalize(str.replace("\"", "")))
+                .toArray(String[]::new);
+    }
+
+    private static String normalize(final String str) {
+        String result = str;
+        if (Strings.requiresTrimming(str)) {
+            result = str.trim();
+        }
+        return result;
+    }
+
 
 }
