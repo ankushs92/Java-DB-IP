@@ -79,3 +79,6 @@ That's pretty much it.
 # Performance
 The lookup is stunningly fast. Since the entire data is cached the JVM, you can expect each lookup to take around 0.1 ms
 
+# Donate
+
+

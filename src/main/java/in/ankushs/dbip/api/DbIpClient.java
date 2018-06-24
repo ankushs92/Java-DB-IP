@@ -23,16 +23,13 @@ import static java.lang.Boolean.valueOf;
 public final class DbIpClient {
 
 	/*
-	 * Indicates whether the file has been loaded into the JVM.
+	 * Flag to determine whether the db-ip file has already been cached into the JVM, or in the process of being cached
 	 * */
 	private static boolean flag = false;
-	
+
 	/**
-	 * Create a new DbIpClient . 
-	 * Once an instance has been created, the allLoaded flag is set to true.
-	 * Any futher initializations of this constructor will not load data into the JVM again.
-	 * @param gzip The dbip-city-latest.csv.gz file as a File object.
-	 * @throws IllegalArgumentException if {@code gzip} does not exist.
+	 * Constructor. Initializing the constructor also loads the file into the JVM
+	 * @param gzip the gzip file to load
 	 */
 	public DbIpClient(final File gzip) {
 		Assert.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
@@ -48,15 +45,13 @@ public final class DbIpClient {
 			}
 		}
 	}
-	
-	
+
+
 	/**
-	 * Returns a loaded GeoEntity object for a given {@code ip}
-	 * If nothing can be resolved for an {@code ip} , then the city,state and country 
-	 * for the GeoEntity will be set to 'Unknown'
-	 * Any futher initializations of the DbIpClient  will not load data into memory again.
-	 * @param ip The ip (as String) to be resolved.
-	 * @return a GeoEntity object representing city,state and province info
+	 * Resolve an ip to its Geolocation
+	 * @param ip the ip to resolve
+	 * @return GeoEntity
+	 * @throws InvalidIPException  if invalid IP is passed
 	 */
 	public GeoEntity lookup(final String ip) {
 		InetAddress inetAddress;
@@ -68,13 +63,12 @@ public final class DbIpClient {
 		}
 		return lookup(inetAddress);
 	}
-	
+
 	/**
-	 * Returns a loaded GeoEntity object for a given {@code inetAddress}
-	 * If nothing can be resolved for an {@code inetAddress} , then the city,state and country 
-	 * for the GeoEntity will be set to 'Unknown'
-	 * @param inetAddress The inetAddress (as InetAddress) to be resolved.
-	 * @return a GeoEntity object representing city,state and province info
+	 * Resolve an ip to its Geolocation
+	 * @param inetAddress the ip to resolve, passed as an InetAddress object
+	 * @return GeoEntity
+	 * @throws InvalidIPException  if invalid IP is passed
 	 */
 	public GeoEntity lookup(final InetAddress inetAddress) {
 		Assert.notNull(inetAddress, "inetAddress cannot be null");

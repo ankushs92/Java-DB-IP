@@ -26,11 +26,6 @@ public final class JavaTreeMapDbIpCacheImpl implements DbIpCache {
 	private static final TreeMap<Integer,GeoEntity> IPV4_CACHE = new TreeMap<>();
 	private static final TreeMap<BigInteger,GeoEntity> IPV6_CACHE = new TreeMap<>();
 
-	/**
-	 * Lookup GeoEntity for an InetAddress
-	 * @param inetAddress The InetAddress to be resolved.
-	 * @return A GeoEntity for an InetAddress
-	 */
 	@Override
 	public GeoEntity get(final InetAddress inetAddress) {
 		Assert.notNull(inetAddress, "inetAddress must not be null");
@@ -48,9 +43,6 @@ public final class JavaTreeMapDbIpCacheImpl implements DbIpCache {
 		return result;
 	}
 
-	/**
-	 * Put a GeoEntity object to Cache
-	 */
 	@Override
 	public void put(final GeoAttributes geoAttributes) {
 		Assert.notNull(geoAttributes, "geoAttributes must not be null");
