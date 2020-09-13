@@ -1,8 +1,8 @@
 package in.ankushs.dbip.parser;
 
-import java.util.Arrays;
-
 import in.ankushs.dbip.utils.PreConditions;
+
+import java.util.Arrays;
 
 public final class CsvParserImpl implements CsvParser {
 	

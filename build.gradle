@@ -24,7 +24,13 @@ repositories {
 }
  
 dependencies {
-  compile('com.google.guava:guava:19.0')
+// https://mvnrepository.com/artifact/io.vertx/vertx-redis-client
+    compile group: 'io.vertx', name: 'vertx-redis-client', version: '3.9.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.4'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.4'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.4'
+
+    compile('com.google.guava:guava:19.0')
   compile('ch.qos.logback:logback-classic:1.1.4')
   compile('ch.qos.logback:logback-core:1.1.4')
   compile('org.slf4j:slf4j-api:1.7.18')
@@ -62,53 +68,53 @@ signing {
 }
 
 
-uploadArchives {
-    repositories {
-	   mavenDeployer{
-		   beforeDeployment{MavenDeployment deployment->
-			   signing.signPom(deployment)
-		   }
-
-		   repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-			   authentication(userName: ossrhUsername, password: ossrhPassword)
-			 }
-
-		   pom{
-			   project{
-				   name 'Java-DbIP'
-				   description 'A Java library for the DB-IP free city dataset '
-				   packaging 'jar'
-				   url 'https://github.com/ankushs92/Java-DB-IP'
-			       inceptionYear '2016'
-
-				   scm {
-					   connection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
-					   developerConnection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
-					   url 'git@github.com:ankushs92/Java-DB-IP.git'
-					 }
-
-				   licenses {
-					   license {
-						 name 'The MIT License'
-						 url 'https://github.com/ankushs92/Java-DB-IP/blob/master/LICENSE.md'
-					   }
-				   }
-				   developers {
-					   developer {
-						 name 'Ankush Sharma'
-						 email 'ankush20058@gmail.com'
-					   }
-					}
-				   issueManagement{
-					   system 'Github'
-					   url 'https://github.com/ankushs92/Java-DB-IP/issues'
-
-				   }
-			   }
-		   }
-	       flatDir {
-	           dirs 'repos'
-	   }
-    }
-  }
-}
+//uploadArchives {
+//    repositories {
+//	   mavenDeployer{
+//		   beforeDeployment{MavenDeployment deployment->
+//			   signing.signPom(deployment)
+//		   }
+//
+//		   repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+//			   authentication(userName: ossrhUsername, password: ossrhPassword)
+//			 }
+//
+//		   pom{
+//			   project{
+//				   name 'Java-DbIP'
+//				   description 'A Java library for the DB-IP free city dataset '
+//				   packaging 'jar'
+//				   url 'https://github.com/ankushs92/Java-DB-IP'
+//			       inceptionYear '2016'
+//
+//				   scm {
+//					   connection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
+//					   developerConnection 'scm:git:git@github.com:ankushs92/Java-DB-IP.git'
+//					   url 'git@github.com:ankushs92/Java-DB-IP.git'
+//					 }
+//
+//				   licenses {
+//					   license {
+//						 name 'The MIT License'
+//						 url 'https://github.com/ankushs92/Java-DB-IP/blob/master/LICENSE.md'
+//					   }
+//				   }
+//				   developers {
+//					   developer {
+//						 name 'Ankush Sharma'
+//						 email 'ankush20058@gmail.com'
+//					   }
+//					}
+//				   issueManagement{
+//					   system 'Github'
+//					   url 'https://github.com/ankushs92/Java-DB-IP/issues'
+//
+//				   }
+//			   }
+//		   }
+//	       flatDir {
+//	           dirs 'repos'
+//	   }
+//    }
+//  }
+//}

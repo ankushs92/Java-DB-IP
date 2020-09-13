@@ -1,21 +1,18 @@
 package in.ankushs.dbip.repository;
 
-import java.math.BigInteger;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.util.TreeMap;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import com.google.common.net.InetAddresses;
-
 import in.ankushs.dbip.api.GeoEntity;
 import in.ankushs.dbip.model.GeoAttributes;
 import in.ankushs.dbip.utils.IPUtils;
 import in.ankushs.dbip.utils.PreConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigInteger;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.util.TreeMap;
 
 /**
  * 

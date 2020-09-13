@@ -2,31 +2,25 @@ package in.ankushs.dbip.importer;
 
 import com.google.common.collect.Interner;
 import com.google.common.collect.Interners;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.zip.GZIPInputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.net.InetAddresses;
-
 import in.ankushs.dbip.model.GeoAttributes;
 import in.ankushs.dbip.model.GeoAttributesImpl;
 import in.ankushs.dbip.parser.CsvParser;
 import in.ankushs.dbip.parser.CsvParserImpl;
 import in.ankushs.dbip.repository.DbIpRepository;
 import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
+import in.ankushs.dbip.repository.RedisDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.CountryResolver;
 import in.ankushs.dbip.utils.GzipUtils;
 import in.ankushs.dbip.utils.PreConditions;
+import io.vertx.redis.client.RedisAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.zip.GZIPInputStream;
 /**
  * 
  * Singleton class responsible for loading the entire file into the JVM.
@@ -36,20 +30,26 @@ public final class ResourceImporter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
+	private final RedisAPI redisApi;
+	private final RedisDbIpRepositoryImpl redisDbIpRepository;
+
 	private final CsvParser csvParser =  CsvParserImpl.getInstance();
 	private static ResourceImporter instance = null;
 
+
 	private Interner<String> interner = Interners.newWeakInterner();
 
-	private ResourceImporter(){}
-	
-	public static ResourceImporter getInstance() {
-		if (instance == null) {
-			return new ResourceImporter();
-		}
-		return instance;
+
+	public ResourceImporter() {
+		this.redisApi = null;
+		this.redisDbIpRepository = null;
 	}
-	
+
+	public ResourceImporter(final RedisAPI redisApi){
+		this.redisApi = redisApi;
+		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(redisApi);
+	}
+
 	/**
 	 * Loads the file into JVM,reading line by line.
 	 * Also transforms each line into a GeoEntity object, and save the object into the 
@@ -96,7 +96,19 @@ public final class ResourceImporter {
 						.withIsp(isp)
 						.build();
 
-				repository.save(geoAttributes);
+				if(Objects.isNull(redisApi)) {
+					repository.save(geoAttributes);
+				}
+				else {
+					redisDbIpRepository.save(geoAttributes).onComplete(insert -> {
+						if(insert.succeeded()) {
+							System.out.println(insert);
+						}
+						else {
+							logger.error("", insert.cause());
+						}
+					});
+				}
 				if (i % 100000 == 0) {
 					logger.debug("Loaded {} entries", i);
 				}

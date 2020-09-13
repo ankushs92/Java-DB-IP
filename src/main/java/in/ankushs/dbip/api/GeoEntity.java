@@ -89,4 +89,8 @@ public final class GeoEntity {
 	public String getIsp() {
 		return isp;
 	}
+
+	public static void main(String[] args) {
+
+	}
 }

@@ -1,8 +1,8 @@
 package in.ankushs.dbip.model;
 
-import java.net.InetAddress;
-
 import in.ankushs.dbip.api.GeoEntity;
+
+import java.net.InetAddress;
 
 public final class GeoAttributesImpl implements GeoAttributes {
 
