@@ -5,21 +5,13 @@ import in.ankushs.dbip.exceptions.InvalidIPException;
 import in.ankushs.dbip.importer.ResourceImporter;
 import in.ankushs.dbip.lookup.GeoEntityLookupService;
 import in.ankushs.dbip.lookup.GeoEntityLookupServiceImpl;
-import in.ankushs.dbip.repository.RedisDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.PreConditions;
-import io.vertx.core.Future;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
-import io.vertx.redis.client.Redis;
-import io.vertx.redis.client.RedisAPI;
 import io.vertx.redis.client.RedisOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.net.InetAddress;
 /**
  * 

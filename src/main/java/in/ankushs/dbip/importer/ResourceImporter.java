@@ -13,7 +13,6 @@ import in.ankushs.dbip.repository.RedisDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.CountryResolver;
 import in.ankushs.dbip.utils.GzipUtils;
 import in.ankushs.dbip.utils.PreConditions;
-import io.vertx.redis.client.RedisAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;

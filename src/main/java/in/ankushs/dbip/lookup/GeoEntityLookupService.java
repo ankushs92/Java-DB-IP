@@ -1,7 +1,6 @@
 package in.ankushs.dbip.lookup;
 
 import in.ankushs.dbip.api.GeoEntity;
-import io.vertx.core.Future;
 
 import java.net.InetAddress;
 

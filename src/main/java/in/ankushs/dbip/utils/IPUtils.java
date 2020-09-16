@@ -1,7 +1,5 @@
 package in.ankushs.dbip.utils;
 
-import com.google.common.net.InetAddresses;
-
 import java.math.BigInteger;
 import java.net.InetAddress;
 

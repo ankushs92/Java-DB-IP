@@ -5,9 +5,6 @@ import in.ankushs.dbip.repository.DbIpRepository;
 import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
 import in.ankushs.dbip.repository.RedisDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.PreConditions;
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.redis.client.RedisAPI;
 import redis.clients.jedis.Jedis;
 
 import java.net.InetAddress;

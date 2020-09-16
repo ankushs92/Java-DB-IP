@@ -6,19 +6,18 @@ import in.ankushs.dbip.model.GeoAttributes;
 import in.ankushs.dbip.utils.IPUtils;
 import in.ankushs.dbip.utils.Json;
 import in.ankushs.dbip.utils.PreConditions;
-import io.vertx.core.Future;
-import io.vertx.core.Promise;
-import io.vertx.redis.client.RedisAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
