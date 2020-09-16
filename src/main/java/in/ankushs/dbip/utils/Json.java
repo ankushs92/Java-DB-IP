@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+
 
 /**
  * Helper class to serialize/deserialize POJOs/Maps to JSON and vice versa
@@ -32,6 +34,8 @@ public class Json {
             return objectMapper
                     .readValue(json, clazz);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
