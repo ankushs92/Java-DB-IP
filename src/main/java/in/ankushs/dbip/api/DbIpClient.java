@@ -6,7 +6,6 @@ import in.ankushs.dbip.importer.ResourceImporter;
 import in.ankushs.dbip.lookup.GeoEntityLookupService;
 import in.ankushs.dbip.lookup.GeoEntityLookupServiceImpl;
 import in.ankushs.dbip.utils.PreConditions;
-import io.vertx.redis.client.RedisOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
@@ -124,7 +123,7 @@ public final class DbIpClient {
 	public static void main(String[] args) {
 		String host = "localhost";
 		int port = 6379;
-		RedisOptions redisOptions = new RedisOptions();
+//		RedisOptions redisOptions = new RedisOptions();
 		Jedis jedis = new Jedis();
 		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis);
 
