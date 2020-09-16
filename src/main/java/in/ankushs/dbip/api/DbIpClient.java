@@ -25,11 +25,9 @@ public final class DbIpClient {
 	 * The dbip-city-latest.csv.gz file 
 	 * */
 	private final File file ;
-	private final boolean usingRedis;
-
+	private final boolean dataLoadedAlready;
 	private final Jedis jedis;
-//	private final RedisOptions redisOptions;
-//	private final Redis redis;
+
 
 	//Singleton
 	private final GeoEntityLookupService lookupService;
@@ -49,32 +47,31 @@ public final class DbIpClient {
 	 */
 	public DbIpClient(final File gzip) {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
-		this.usingRedis = false;
 		this.file = gzip;
+		this.dataLoadedAlready = false;
 		this.jedis = null;
-//		this.redisOptions = null;
-//		this.redis = null;
 		this.lookupService = new GeoEntityLookupServiceImpl();
 		if (!flag) {
 			flag = true;
 			logger.info("Loading db ip into repository ");
 			new ResourceImporter().load(gzip);
 			logger.info("Loading finished");
-		} else {
+		}
+		else {
 			logger.info(" DbIp csv file has already been loaded ");
 		}
 	}
 
 
-	public DbIpClient(final File gzip, final Jedis jedis) {
+	public DbIpClient(final File gzip, final Jedis jedis, final boolean dataLoadedAlready) {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.file = gzip;
-		this.usingRedis = true;
 		this.jedis = jedis;
+		this.dataLoadedAlready = dataLoadedAlready;
 
 		this.lookupService = new GeoEntityLookupServiceImpl(jedis);
-		final boolean savedAlready = true;
-		if(!savedAlready) {
+
+		if(!dataLoadedAlready) {
 			new ResourceImporter(jedis).load(file);
 		}
 
@@ -125,7 +122,7 @@ public final class DbIpClient {
 		int port = 6379;
 //		RedisOptions redisOptions = new RedisOptions();
 		Jedis jedis = new Jedis();
-		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis);
+		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis, true);
 
 		String ip = "1.35.203.255";
 
