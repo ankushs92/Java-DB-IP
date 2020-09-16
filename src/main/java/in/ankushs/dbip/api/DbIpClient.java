@@ -15,8 +15,11 @@ import io.vertx.redis.client.RedisAPI;
 import io.vertx.redis.client.RedisOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.InetAddress;
 /**
  * 
@@ -33,8 +36,9 @@ public final class DbIpClient {
 	private final File file ;
 	private final boolean usingRedis;
 
-	private final RedisOptions redisOptions;
-	private final Redis redis;
+	private final Jedis jedis;
+//	private final RedisOptions redisOptions;
+//	private final Redis redis;
 
 	//Singleton
 	private final GeoEntityLookupService lookupService;
@@ -56,8 +60,9 @@ public final class DbIpClient {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.usingRedis = false;
 		this.file = gzip;
-		this.redisOptions = null;
-		this.redis = null;
+		this.jedis = null;
+//		this.redisOptions = null;
+//		this.redis = null;
 		this.lookupService = new GeoEntityLookupServiceImpl();
 		if (!flag) {
 			flag = true;
@@ -70,35 +75,22 @@ public final class DbIpClient {
 	}
 
 
-	public DbIpClient(final File gzip, final RedisOptions redisOptions) {
+	public DbIpClient(final File gzip, final Jedis jedis) {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.file = gzip;
-		this.redisOptions = redisOptions;
 		this.usingRedis = true;
+		this.jedis = jedis;
 
-		final VertxOptions vertxOptions = new VertxOptions();
-		vertxOptions.setBlockedThreadCheckInterval(10000000L);
-		final Vertx vertx = Vertx.vertx(vertxOptions);
-		final Redis redis = Redis.createClient(vertx, redisOptions);
-		this.redis = redis;
-		final RedisAPI redisApi = RedisAPI.api(redis);
-		this.lookupService = new GeoEntityLookupServiceImpl(redisApi);
+		this.lookupService = new GeoEntityLookupServiceImpl(jedis);
+		final boolean savedAlready = true;
+		if(!savedAlready) {
+			new ResourceImporter(jedis).load(file);
+		}
 
-		redis.connect(onConnect -> {
-			if(onConnect.succeeded()) {
-				logger.info("Successfully connected to Redis");
-				final boolean savedAlready = false;
-				if(!savedAlready) {
-					new ResourceImporter(RedisAPI.api(onConnect.result())).load(file);
-				}
-			}
-			else {
-				logger.error("Error connecting to Redis ", onConnect.cause());
-			}
-		});
+
 	}
-	
-	
+
+
 	/**
 	 * Returns a loaded GeoEntity object for a given {@code ip}
 	 * If nothing can be resolved for an {@code ip} , then the city,state and country 
@@ -131,23 +123,27 @@ public final class DbIpClient {
 		return lookupService.lookup(inetAddress);
 	}
 
-	public Future<GeoEntity> lookupAsync(final String ip) {
-		PreConditions.checkNull(ip, "inetAddress cannot be null");
-		final InetAddress  inetAddress = InetAddresses.forString(ip);
-		return lookupService.lookupAsync(inetAddress);
-	}
+//	public Future<GeoEntity> lookupAsync(final String ip) {
+//		PreConditions.checkNull(ip, "inetAddress cannot be null");
+//		final InetAddress  inetAddress = InetAddresses.forString(ip);
+//		return lookupService.lookupAsync(inetAddress);
+//	}
 
 	public static void main(String[] args) {
 		String host = "localhost";
 		int port = 6379;
 		RedisOptions redisOptions = new RedisOptions();
-		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Downloads/ranjeet_ranjan-adosiz-geoip-vertx-e33c76f3158d/src/main/resources/dbip-full-2018-04.csv.gz"), redisOptions);
+		Jedis jedis = new Jedis();
+		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis);
 
-//		String ip = "84.170.151.254";
-//		dbIpClient.lookupAsync(ip).onComplete(a -> {
-//			System.out.println(a);
-//		});
+		String ip = "1.35.203.255";
 
+		System.out.println(dbIpClient.lookup(ip));
+
+//		BigDecimal d = new BigDecimal("123456789987654321123456789");
+//		String result = d.toPlainString();
+//
+//		System.out.println(Double.valueOf(result));
 
 	}
 

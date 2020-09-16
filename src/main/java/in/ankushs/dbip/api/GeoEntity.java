@@ -1,16 +1,30 @@
 package in.ankushs.dbip.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  *
  * @author Ankush Sharma
  */
 public final class GeoEntity {
-	private final String city;
-	private final String country;
-	private final String province;
-	private final String countryCode;
-	private final String isp;
+
+//	city":"Limburg Province","country":"Belgium","province":"Flanders","countryCode":"BE","isp":"Telenet"}"; line
+	@JsonProperty("city")
+	private  String city;
+	@JsonProperty("country")
+	private  String country;
+
+	@JsonProperty("province")
+	private  String province;
+
+	@JsonProperty("countryCode")
+	private  String countryCode;
+
+	@JsonProperty("isp")
+	private  String isp;
+
+	public GeoEntity() {}
 
 	public GeoEntity(final Builder builder){
 		this.city = builder.city;
@@ -70,6 +84,25 @@ public final class GeoEntity {
 		return province;
 	}
 
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public void setIsp(String isp) {
+		this.isp = isp;
+	}
 
 	@Override
 	public String toString() {

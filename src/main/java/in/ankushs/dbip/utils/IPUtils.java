@@ -1,5 +1,7 @@
 package in.ankushs.dbip.utils;
 
+import com.google.common.net.InetAddresses;
+
 import java.math.BigInteger;
 import java.net.InetAddress;
 
@@ -8,9 +10,11 @@ import java.net.InetAddress;
  */
 public class IPUtils {
 
-    public static BigInteger ipv6ToBigInteger(final InetAddress inetAddress){
+    public static BigInteger ipv6ToBigInteger(final InetAddress inetAddress) {
         PreConditions.checkNull(inetAddress,"inetAddress cannot be null");
         final  byte[] bytes = inetAddress.getAddress();
         return new BigInteger(1, bytes);
     }
+
+
 }

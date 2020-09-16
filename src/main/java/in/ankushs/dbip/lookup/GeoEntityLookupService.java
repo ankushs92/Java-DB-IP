@@ -8,6 +8,6 @@ import java.net.InetAddress;
 public interface GeoEntityLookupService {
 	GeoEntity lookup(InetAddress inetAddress);
 
-	Future<GeoEntity> lookupAsync(InetAddress address);
+//	Future<GeoEntity> lookupAsync(InetAddress address);
 
 }

@@ -16,6 +16,7 @@ import in.ankushs.dbip.utils.PreConditions;
 import io.vertx.redis.client.RedisAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,7 @@ public final class ResourceImporter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
-	private final RedisAPI redisApi;
+	private final Jedis jedis;
 	private final RedisDbIpRepositoryImpl redisDbIpRepository;
 
 	private final CsvParser csvParser =  CsvParserImpl.getInstance();
@@ -41,13 +42,13 @@ public final class ResourceImporter {
 
 
 	public ResourceImporter() {
-		this.redisApi = null;
+		this.jedis = null;
 		this.redisDbIpRepository = null;
 	}
 
-	public ResourceImporter(final RedisAPI redisApi){
-		this.redisApi = redisApi;
-		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(redisApi);
+	public ResourceImporter(final Jedis jedis){
+		this.jedis = jedis;
+		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis);
 	}
 
 	/**
@@ -69,7 +70,7 @@ public final class ResourceImporter {
 		try (final InputStream fis = new FileInputStream(file);
 			 final InputStream gis = new GZIPInputStream(fis);
 			 final Reader decorator = new InputStreamReader(gis, StandardCharsets.UTF_8);
-			 final BufferedReader reader = new BufferedReader(decorator);
+			 final BufferedReader reader = new BufferedReader(decorator)
 		)
 	{
 			logger.debug("Reading dbip data from {}", file.getName());
@@ -83,6 +84,7 @@ public final class ResourceImporter {
 					 isp = interner.intern(array[12]);
 				}
 				catch(Exception ex){
+
 				}
 
 				final GeoAttributes geoAttributes = new GeoAttributesImpl
@@ -96,18 +98,11 @@ public final class ResourceImporter {
 						.withIsp(isp)
 						.build();
 
-				if(Objects.isNull(redisApi)) {
+				if(Objects.isNull(jedis)) {
 					repository.save(geoAttributes);
 				}
 				else {
-					redisDbIpRepository.save(geoAttributes).onComplete(insert -> {
-						if(insert.succeeded()) {
-							System.out.println(insert);
-						}
-						else {
-							logger.error("", insert.cause());
-						}
-					});
+					redisDbIpRepository.save(geoAttributes);
 				}
 				if (i % 100000 == 0) {
 					logger.debug("Loaded {} entries", i);
