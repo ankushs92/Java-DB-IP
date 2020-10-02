@@ -9,9 +9,12 @@ import in.ankushs.dbip.utils.PreConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.time.Duration;
 import java.util.Set;
 
 /**
@@ -28,7 +31,7 @@ public final class DbIpClient {
 	 * */
 	private final File file ;
 	private final boolean fullLoadingEnabled;
-	private final Jedis jedis;
+	private final JedisPool jedisPool;
 
 
 	//Singleton
@@ -51,7 +54,7 @@ public final class DbIpClient {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.file = gzip;
 		this.fullLoadingEnabled = false;
-		this.jedis = null;
+		this.jedisPool = null;
 		this.lookupService = new GeoEntityLookupServiceImpl();
 		if (!flag) {
 			flag = true;
@@ -65,15 +68,15 @@ public final class DbIpClient {
 	}
 
 
-	public DbIpClient(final File gzip, final Jedis jedis, final boolean fullLoadingEnabled) {
+	public DbIpClient(final File gzip, final JedisPool jedisPool, final boolean fullLoadingEnabled) {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.file = gzip;
-		this.jedis = jedis;
+		this.jedisPool = jedisPool;
 		this.fullLoadingEnabled = fullLoadingEnabled;
 
-		this.lookupService = new GeoEntityLookupServiceImpl(jedis, fullLoadingEnabled);
+		this.lookupService = new GeoEntityLookupServiceImpl(jedisPool, fullLoadingEnabled);
 
-		new ResourceImporter(jedis, fullLoadingEnabled).load(file);
+		new ResourceImporter(jedisPool, fullLoadingEnabled).load(file);
 
 	}
 
@@ -136,7 +139,11 @@ public final class DbIpClient {
 		int port = 6379;
 //		RedisOptions redisOptions = new RedisOptions();
 		Jedis jedis = new Jedis();
-		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis, false);
+		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+		jedisPoolConfig.setMaxTotal(Runtime.getRuntime().availableProcessors());
+		jedisPoolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
+		JedisPool jedisPool = new JedisPool(jedisPoolConfig);
+		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedisPool, false);
 
 		String ip = "1.35.203.255";
 

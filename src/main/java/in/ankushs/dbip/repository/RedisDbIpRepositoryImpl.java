@@ -12,6 +12,7 @@ import in.ankushs.dbip.utils.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.math.BigInteger;
 import java.net.Inet4Address;
@@ -25,7 +26,7 @@ public class RedisDbIpRepositoryImpl implements DbIpRepository {
 
     private static final String SORTED_SET = "geoip";
     private static final Logger logger = LoggerFactory.getLogger(RedisDbIpRepositoryImpl.class);
-    private final Jedis jedis;
+    private final JedisPool jedisPool;
     private final boolean fullLoadingEnabled;
 
     private static Set<String> countries = new HashSet<>();
@@ -33,9 +34,9 @@ public class RedisDbIpRepositoryImpl implements DbIpRepository {
     private static Set<ProvinceCountry> provinceCountries = new HashSet<>();
 
 
-    public RedisDbIpRepositoryImpl(final Jedis jedis,
+    public RedisDbIpRepositoryImpl(final JedisPool jedisPool,
                                    final boolean fullLoadingEnabled) {
-        this.jedis = jedis;
+        this.jedisPool = jedisPool;
         this.fullLoadingEnabled = fullLoadingEnabled;
     }
 
@@ -51,7 +52,7 @@ public class RedisDbIpRepositoryImpl implements DbIpRepository {
             final BigInteger startIpBigInt = IPUtils.ipv6ToBigInteger(inetAddress);
             ip = startIpBigInt.intValue();
         }
-        final Set<String> jsons = jedis.zrangeByScore(SORTED_SET, ip, Double.MAX_VALUE, 0, 1);
+        final Set<String> jsons = jedisPool.getResource().zrangeByScore(SORTED_SET, ip, Double.MAX_VALUE, 0, 1);
         if(jsons != null && !jsons.isEmpty()) {
             final Map<Object, Object> member = Json.toObject(jsons.stream().findAny().get(), Map.class);
             final Map<String, String> result = (Map<String, String>) member.entrySet().stream().findAny().get().getValue();
@@ -109,7 +110,7 @@ public class RedisDbIpRepositoryImpl implements DbIpRepository {
 
 
             if(fullLoadingEnabled) {
-                jedis.zadd(SORTED_SET, ip, json);
+                jedisPool.getResource().zadd(SORTED_SET, ip, json);
             }
 
         }

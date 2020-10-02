@@ -16,6 +16,7 @@ import in.ankushs.dbip.utils.PreConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,7 @@ public final class ResourceImporter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
-	private final Jedis jedis;
+	private final JedisPool jedisPool;
 
 	private final RedisDbIpRepositoryImpl redisDbIpRepository;
 
@@ -41,13 +42,13 @@ public final class ResourceImporter {
 
 
 	public ResourceImporter() {
-		this.jedis = null;
+		this.jedisPool = null;
 		this.redisDbIpRepository = null;
 	}
 
-	public ResourceImporter(final Jedis jedis, final boolean fullLoadingEnabled) {
-		this.jedis = jedis;
-		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis, fullLoadingEnabled);
+	public ResourceImporter(final JedisPool jedisPool, final boolean fullLoadingEnabled) {
+		this.jedisPool = jedisPool;
+		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedisPool, fullLoadingEnabled);
 	}
 
 	/**
@@ -97,7 +98,7 @@ public final class ResourceImporter {
 						.withIsp(isp)
 						.build();
 
-				if(Objects.isNull(jedis)) {
+				if(Objects.isNull(jedisPool)) {
 					repository.save(geoAttributes);
 				}
 				else {

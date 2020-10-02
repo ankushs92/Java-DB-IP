@@ -8,6 +8,7 @@ import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
 import in.ankushs.dbip.repository.RedisDbIpRepositoryImpl;
 import in.ankushs.dbip.utils.PreConditions;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.net.InetAddress;
 import java.util.Set;
@@ -25,17 +26,17 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 	
 	private static GeoEntityLookupServiceImpl instance = null;
 
-	private final Jedis jedis;
+	private final JedisPool jedisPool;
 	private final RedisDbIpRepositoryImpl redisDbIpRepository;
 
 	public GeoEntityLookupServiceImpl() {
-		this.jedis = null;
+		this.jedisPool = null;
 		this.redisDbIpRepository = null;
 	}
 
-	public GeoEntityLookupServiceImpl(final Jedis jedis, final boolean fullLoadingEnabled) {
-		this.jedis = jedis;
-		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis, fullLoadingEnabled);
+	public GeoEntityLookupServiceImpl(final JedisPool jedisPool, final boolean fullLoadingEnabled) {
+		this.jedisPool = jedisPool;
+		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedisPool, fullLoadingEnabled);
 	}
 
 
@@ -43,7 +44,7 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 	public GeoEntity lookup(final InetAddress inetAddress) {
 		PreConditions.checkNull(inetAddress, "inetAddress cannot be null ");
 		GeoEntity geoEntity = null;
-		if(jedis != null) {
+		if(jedisPool != null) {
 			geoEntity = redisDbIpRepository.get(inetAddress);
 		}
 		else {
