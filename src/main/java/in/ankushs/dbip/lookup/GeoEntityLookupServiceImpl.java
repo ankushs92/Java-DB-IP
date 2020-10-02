@@ -1,6 +1,8 @@
 package in.ankushs.dbip.lookup;
 
+import in.ankushs.dbip.api.CityProvinceCountry;
 import in.ankushs.dbip.api.GeoEntity;
+import in.ankushs.dbip.api.ProvinceCountry;
 import in.ankushs.dbip.repository.DbIpRepository;
 import in.ankushs.dbip.repository.JavaMapDbIpRepositoryImpl;
 import in.ankushs.dbip.repository.RedisDbIpRepositoryImpl;
@@ -8,6 +10,7 @@ import in.ankushs.dbip.utils.PreConditions;
 import redis.clients.jedis.Jedis;
 
 import java.net.InetAddress;
+import java.util.Set;
 
 /**
  * 
@@ -30,9 +33,9 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 		this.redisDbIpRepository = null;
 	}
 
-	public GeoEntityLookupServiceImpl(final Jedis jedis) {
+	public GeoEntityLookupServiceImpl(final Jedis jedis, final boolean fullLoadingEnabled) {
 		this.jedis = jedis;
-		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis);
+		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis, fullLoadingEnabled);
 	}
 
 
@@ -57,6 +60,21 @@ public final class GeoEntityLookupServiceImpl implements GeoEntityLookupService 
 								.build();
 		}
 		return geoEntity;
+	}
+
+	@Override
+	public Set<String> getCountries() {
+		return redisDbIpRepository.countries();
+	}
+
+	@Override
+	public Set<ProvinceCountry> getProvinceCountries() {
+		return redisDbIpRepository.provinceCountries();
+	}
+
+	@Override
+	public Set<CityProvinceCountry> getCityProvinceCountries() {
+		return redisDbIpRepository.citiesCountryProvince();
 	}
 
 }//	@Override

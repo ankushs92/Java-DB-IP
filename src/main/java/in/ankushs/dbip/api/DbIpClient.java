@@ -12,6 +12,8 @@ import redis.clients.jedis.Jedis;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.util.Set;
+
 /**
  * 
  * Class responsible for loading data into the JVM and also an API for resolving ip.
@@ -25,7 +27,7 @@ public final class DbIpClient {
 	 * The dbip-city-latest.csv.gz file 
 	 * */
 	private final File file ;
-	private final boolean dataLoadedAlready;
+	private final boolean fullLoadingEnabled;
 	private final Jedis jedis;
 
 
@@ -48,7 +50,7 @@ public final class DbIpClient {
 	public DbIpClient(final File gzip) {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.file = gzip;
-		this.dataLoadedAlready = false;
+		this.fullLoadingEnabled = false;
 		this.jedis = null;
 		this.lookupService = new GeoEntityLookupServiceImpl();
 		if (!flag) {
@@ -63,18 +65,15 @@ public final class DbIpClient {
 	}
 
 
-	public DbIpClient(final File gzip, final Jedis jedis, final boolean dataLoadedAlready) {
+	public DbIpClient(final File gzip, final Jedis jedis, final boolean fullLoadingEnabled) {
 		PreConditions.checkExpression(!gzip.exists(), "file " + gzip.getName() + " does not exist");
 		this.file = gzip;
 		this.jedis = jedis;
-		this.dataLoadedAlready = dataLoadedAlready;
+		this.fullLoadingEnabled = fullLoadingEnabled;
 
-		this.lookupService = new GeoEntityLookupServiceImpl(jedis);
+		this.lookupService = new GeoEntityLookupServiceImpl(jedis, fullLoadingEnabled);
 
-		if(!dataLoadedAlready) {
-			new ResourceImporter(jedis).load(file);
-		}
-
+		new ResourceImporter(jedis, fullLoadingEnabled).load(file);
 
 	}
 
@@ -111,6 +110,21 @@ public final class DbIpClient {
 		return lookupService.lookup(inetAddress);
 	}
 
+
+	public Set<String> getCountries() {
+		return lookupService.getCountries();
+	}
+
+	public Set<ProvinceCountry> getProvinceCountries() {
+		return lookupService.getProvinceCountries();
+	}
+
+	public Set<CityProvinceCountry> getCityProvinceCountries() {
+		return lookupService.getCityProvinceCountries();
+	}
+
+
+
 //	public Future<GeoEntity> lookupAsync(final String ip) {
 //		PreConditions.checkNull(ip, "inetAddress cannot be null");
 //		final InetAddress  inetAddress = InetAddresses.forString(ip);
@@ -122,11 +136,15 @@ public final class DbIpClient {
 		int port = 6379;
 //		RedisOptions redisOptions = new RedisOptions();
 		Jedis jedis = new Jedis();
-		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis, true);
+		DbIpClient dbIpClient = new DbIpClient(new File("/Users/ankushsharma/Desktop/dbip-full-2018-04.csv.gz"), jedis, false);
 
 		String ip = "1.35.203.255";
 
 		System.out.println(dbIpClient.lookup(ip));
+
+		dbIpClient.getCityProvinceCountries().forEach(it -> {
+			System.out.println(it);
+		});
 
 //		BigDecimal d = new BigDecimal("123456789987654321123456789");
 //		String result = d.toPlainString();

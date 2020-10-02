@@ -16,4 +16,6 @@ public interface DbIpRepository {
 	GeoEntity get( InetAddress inetAddress);
 
 	void save(GeoAttributes geoAttributes);
+
+	boolean fullLoadingEnabled();
 }

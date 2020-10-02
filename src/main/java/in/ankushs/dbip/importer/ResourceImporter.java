@@ -31,10 +31,10 @@ public final class ResourceImporter {
 	private static final Logger logger = LoggerFactory.getLogger(ResourceImporter.class);
 	private final DbIpRepository repository = JavaMapDbIpRepositoryImpl.getInstance();
 	private final Jedis jedis;
+
 	private final RedisDbIpRepositoryImpl redisDbIpRepository;
 
 	private final CsvParser csvParser =  CsvParserImpl.getInstance();
-	private static ResourceImporter instance = null;
 
 
 	private Interner<String> interner = Interners.newWeakInterner();
@@ -45,9 +45,9 @@ public final class ResourceImporter {
 		this.redisDbIpRepository = null;
 	}
 
-	public ResourceImporter(final Jedis jedis){
+	public ResourceImporter(final Jedis jedis, final boolean fullLoadingEnabled) {
 		this.jedis = jedis;
-		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis);
+		this.redisDbIpRepository = new RedisDbIpRepositoryImpl(jedis, fullLoadingEnabled);
 	}
 
 	/**
