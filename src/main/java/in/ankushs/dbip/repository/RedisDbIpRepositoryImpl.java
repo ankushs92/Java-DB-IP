@@ -52,17 +52,19 @@ public class RedisDbIpRepositoryImpl implements DbIpRepository {
             final BigInteger startIpBigInt = IPUtils.ipv6ToBigInteger(inetAddress);
             ip = startIpBigInt.intValue();
         }
-        final Set<String> jsons = jedisPool.getResource().zrangeByScore(SORTED_SET, ip, Double.MAX_VALUE, 0, 1);
-        if(jsons != null && !jsons.isEmpty()) {
-            final Map<Object, Object> member = Json.toObject(jsons.stream().findAny().get(), Map.class);
-            final Map<String, String> result = (Map<String, String>) member.entrySet().stream().findAny().get().getValue();
-            return new GeoEntity.Builder()
-                    .withCity(result.get("city"))
-                    .withCountry(result.get("country"))
-                    .withIsp(result.get("isp"))
-                    .withCountryCode(result.get("countryCode"))
-                    .withProvince(result.get("province"))
-                    .build();
+        try(final Jedis jedis = jedisPool.getResource()) {
+            final Set<String> jsons = jedis.zrangeByScore(SORTED_SET, ip, Double.MAX_VALUE, 0, 1);
+            if(jsons != null && !jsons.isEmpty()) {
+                final Map<Object, Object> member = Json.toObject(jsons.stream().findAny().get(), Map.class);
+                final Map<String, String> result = (Map<String, String>) member.entrySet().stream().findAny().get().getValue();
+                return new GeoEntity.Builder()
+                        .withCity(result.get("city"))
+                        .withCountry(result.get("country"))
+                        .withIsp(result.get("isp"))
+                        .withCountryCode(result.get("countryCode"))
+                        .withProvince(result.get("province"))
+                        .build();
+            }
         }
         return null;
     }
@@ -110,7 +112,9 @@ public class RedisDbIpRepositoryImpl implements DbIpRepository {
 
 
             if(fullLoadingEnabled) {
-                jedisPool.getResource().zadd(SORTED_SET, ip, json);
+                try(final Jedis jedis = jedisPool.getResource()) {
+                   jedis.zadd(SORTED_SET, ip, json);
+                }
             }
 
         }
